@@ -3,12 +3,12 @@ layout: default
 title: 白强的博客列表 
 ---
 
-<h1>最新文章</h1>
-<div style="float:left">
-    <div class="col-sm-10">
+<h2>最新文章</h2>
+<div class="row">
+    <div class="col-md-8">
         <ul>
             {% for post in site.posts %}
-            <li style="margin-top:10px;">{{ post.date | date_to_string }}
+            <li style="margin-top:10px;" class="list-unstyled">{{ post.date | date_to_string }}
                 <h3>
                     <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
                 </h3>
@@ -16,11 +16,10 @@ title: 白强的博客列表
             {% endfor %}
         </ul>
     </div>
-    <div class="col-sm-2 col-sm-offset-1">
-        <h2>About
-        </h2>
+    <div class="col-md-4">
+        <h2>关于本站</h2>
         <div>
-            This is a test.
+             GitHub 提供了一种功能，叫 GitHub Pages, 利用这个功能，我们可以为项目建立网站。Jekyll是一个简单的，针对博客设计的静态网站生成器。使用 GitHub 和 Jekyll，我们可以打造自己的独立博客。
         </div>
     </div>
 </div>
