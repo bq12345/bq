@@ -1,20 +1,23 @@
 --- 
 layout: default
-title: 白强的博客
+title: 白强的博客列表
 ---
 
-<h2>{{ page.title }}</h2>
+<h1>最新文章</h1>
 
-<p>最新文章</p>
-
+<div class="col-sm-10">
 <ul>
-
     {% for post in site.posts %}
-
-    <li>{{ post.date | date_to_string }}
-        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    <li style="margin-top:10px;">{{ post.date | date_to_string }}
+        <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
     </li>
-
     {% endfor %}
-
 </ul>
+    </div>
+<div class="col-sm-3 col-sm-offset-1">
+    <h2>About
+    </h2>
+    <div>
+        This is a test.
+    </div>
+</div>

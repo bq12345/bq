@@ -1,0 +1,24 @@
+--- 
+layout: default
+title: 关于白强 
+---
+
+<h1>{{ page.title }}</h1>
+
+<script src="{{ site.baseurl }}dist/js/jquery.MyFloatingBg.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#demoDiv").MyFloatingBg({
+            direction: 0,
+            speed: 10
+        });
+    });
+</script>
+
+<div id="demoDiv" bg="{{ site.baseurl }}assets/image/star.jpg" style="height: 750px;
+	text-align: center;
+	font-weight: bold;
+    padding-top:400px;
+	font-size: 36px;">
+    <div style="color: #fff">我是一个前端开发人员。目前还是一个学生。我比较熟悉HTML5/CSS/CSS3/Javascript。我感兴趣的前端框架有Bootstrap/jQuery/RequireJS/LESS.js/Three.js等。目前正在学习前端MVC设计。我希望自己能有一个更大的发展空间和学习环境。欢迎交流。E-mail:1075707996@qq.com</div>
+</div>
