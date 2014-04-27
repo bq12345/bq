@@ -1,117 +1,102 @@
 ---
 layout: default 
-title: 如何搭建本博客
+title: Java8
 ---
 
 <h2>{{ page.title }}</h2>
 
 <p>{{ page.date | date_to_string }}</p>
 
-<p><strong>JS</strong><strong>面试题及答案</strong></p>
+<script>
+    $(window).load(function () {
+            $("pre").addClass("prettyprint linenums");
+            prettyPrint();
+})
+</script>
+<audio src="http://baiqiang.qiniudn.com/%E9%80%83%E8%B7%91%E8%AE%A1%E5%88%92-%E5%A4%9C%E7%A9%BA%E4%B8%AD%E6%9C%80%E4%BA%AE%E7%9A%84%E6%98%9F.mp3" controls="controls">
+Your browser does not support the audio tag.
+</audio>
 
-<p><strong>一、</strong><strong>JS</strong><strong>闭包。</strong></p>
+<p>关于Java8的一个例子</p>
+<pre>
+    /**
+ * Copyright (c) 2014. Designed By BaiQiang.
+ */
+package org.bq;
 
-<p>f = function() {return true;};</p>
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-<p>g = function() {return false;};</p>
+/**
+ * @author白强
+ * @version 1.0
+ */
 
-<p>(function() {</p>
 
-<p>if (g() &amp;&amp; [] == ![]) {</p>
+@FunctionalInterface
+interface Converter<F, T> {
+	T convert(F from);
+}
+interface PersonFactory<P extends Person> {
+    P create(String firstName, String lastName);
+}
+public class Demo {
 
-<p>f = function f() {return false;};</p>
+	public static void main(String[] args) {
+		//Converter<String, Integer> converter = (from) -> Integer.valueOf(from);
+		Converter<String, Integer> converter = Integer::valueOf;
+		Integer converted = converter.convert("123");
+		PersonFactory<Person> personFactory = Person::new;
+		Person person = personFactory.create("Bai", "Qiang");
+		System.out.println(person); // 123
+		System.out.println(converted); // 123
+		
+		
+		Demo demo = new Demo();
+		List<String> names = Arrays.asList("peter", "anna", "mike", "make",
+				"xenia");
+		Collections.sort(names, (a, b) -> a.compareTo(b));
+		for (String s : names) {
+			System.out.println(s);
 
-<p>function g() {return true;}</p>
+		}
+	}
 
-<p>}</p>
+	public static void display() {
 
-<p>})();</p>
+	}
 
-<p>alert(f()); // true or false ?</p>
+}
+</pre>
 
-<p>－－－－－－－－－－－－－－－－－－－－－－－－</p>
+<p>一个实体类</p>
+<pre>
+/**
+ * Copyright (c) 2014. Designed By BaiQiang.
+ */
+package org.bq;
 
-<p><strong>答案：</strong></p>
+/**
+ * @author 白强
+ * @version 1.0
+ */
+public class Person {
+	@Override
+	public String toString() {
+		return "Person [firstName=" + firstName + ", lastName=" + lastName
+				+ "]";
+	}
 
-<p>(function() {</p>
+	String firstName;
+	String lastName;
 
-<p>if (g() &amp;&amp; [] == ![]) {</p>
+	Person() {
+	}
 
-<p>//应该看成if((g() &amp;&amp; [] )== ![])</p>
-
-<p>//因为g()是false后面那个&amp;&amp;[]就没起作用 整个都是false</p>
-
-<p>//![]也是false 所以if成立 进入if块内</p>
-
-<p>f = function f() {return false;};</p>
-
-<p>//重新定义f</p>
-
-<p>function g() {return true;}</p>
-
-<p>//这句没用</p>
-
-<p>}</p>
-
-<p>})();</p>
-
-<p>alert(f());</p>
-
-<p>//false</p>
-
-<p><strong>二、截取字符串</strong><strong>abcdefg</strong><strong>的</strong><strong>efg</strong></p>
-
-<p>&lt;p id=&quot;text&quot;&gt;abcdefg&lt;/p&gt;<br />
-&lt;script type=&quot;text/javascript&quot;&gt;<br />
-var mytext=document.getElementByIdx_x_x_x(&quot;text&quot;);<br />
-var myvalue=mytext.innerHTML;<br />
-var jiequ=myvalue.substring(myvalue.length-3,myvalue.length);<br />
-alert(jiequ)<br />
-&lt;/script&gt;</p>
-
-<p><strong>三、写出一下运算结果</strong></p>
-
-<p>alert(typeof(null)) // object</p>
-
-<p>alert(typeof(undefined)) // undefined</p>
-
-<p>alert(typeof(NaN)) // number</p>
-
-<p>alert(NaN==undefined) // false</p>
-
-<p>alert(NaN==NaN) // false</p>
-
-<p>var str=&quot;123abc&quot;;<br />
-alert(typeof(str++)) // number</p>
-
-<p>alert(str) // string</p>
-
-<p><strong>四、写出函数</strong><strong>DateDemo</strong><strong>的返回结果，系统时间假定为今天</strong></p>
-
-<p>function DateDemo(){</p>
-
-<p>var d, s=&quot;今天日期是：&quot;;</p>
-
-<p>d = new Date();</p>
-
-<p>s += d.getMonth() + &quot;/&quot;;</p>
-
-<p>s += d.getDate() + &quot;/&quot;;</p>
-
-<p>s += d.getYear();</p>
-
-<p>return s;</p>
-
-<p>}</p>
-
-<p>结果：今天日期是：7/17/2010</p>
-
-<p><strong>五、写出程序运行的结果？</strong></p>
-
-<p>for(i=0, j=0; i&lt;10, j&lt;6; i++, j++){</p>
-
-<p>k = i + j;</p>
-
-<p>}</p>
-
-<p>结果：10<strong>（小心陷阱）</strong></p>
+	Person(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+}
+</pre>
