@@ -1,31 +1,38 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
     {% include header.html %}
 </head>
-
 <body>
-    <div>
-        {{ content }}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">白强</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="index.html">首页</a>
+                    </li>
+                    <li>
+                        <a href="blog.html">博客</a>
+                    </li>
+                    <li>
+                        <a href="about.html">关于</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
+    <div class="jumbotron">
+        <div class="container">
+            {{ content }}
+        </div>
+    </div>
 
     <!-- ==============Footer===========-->
-    <footer class="bs-footer" role="contentinfo">
-        <div class="container">
-
-            <p>Designed by
-                <a href="https://github.com/bq12345/" target="_blank">@BaiQiang</a>
-            </p>
-            <p>All Right Reserved 2014.
-            </p>
-            <p>Code licensed under
-                <a href="https://github.com/twbs/bootstrap/blob/master/LICENSE" target="_blank">MIT</a>, documentation under
-                <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
-        </div>
-    </footer>
+    {% include footer.html %}
 </body>
 
 </html>
