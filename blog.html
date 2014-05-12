@@ -1,14 +1,15 @@
 --- 
 layout: default
-title: 白强的博客列表 
+title: 博客列表 
 ---
 
 <h2>最新文章</h2>
+<hr />
 <div class="row">
     <div class="col-md-8">
         <ul>
             {% for post in site.posts %}
-            <li style="margin-top:10px;" class="list-unstyled">{{ post.date | date_to_string }}
+            <li style="margin-top:10px;" class="list-unstyled">发布时间:{{ post.date | date_to_string }}
                 <h3>
                     <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
                 </h3>
@@ -19,7 +20,7 @@ title: 白强的博客列表
     <div class="col-md-3">
         <h2>关于本站</h2>
         <div>
-             GitHub 提供了一种功能，叫 GitHub Pages, 利用这个功能，我们可以为项目建立网站。Jekyll是一个简单的，针对博客设计的静态网站生成器。使用 GitHub 和 Jekyll，我们可以打造自己的独立博客。我的网站建立在Bootstrap基础之上。利用jQuery插件实现部分功能。
+             GitHub 提供了一种功能，叫 GitHub Pages, 利用这个功能，我们可以为项目建立网站。Jekyll是一个简单的，针对博客设计的静态网站生成器。使用 GitHub 和 Jekyll，我们可以打造自己的独立博客。我的网站建立在Bootstrap基础之上。利用jQuery插件实现部分功能。而关于代码高亮google-code-prettify或是Gist都可以实现。
         </div>
     </div>
 </div>
