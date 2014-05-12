@@ -9,10 +9,10 @@ title: 博客列表
     <div class="col-md-8">
         <ul>
             {% for post in site.posts %}
-            <li style="margin-top:10px;" class="list-unstyled">发布时间:{{ post.date | date_to_string }}
-                <h3>
+            <li style="margin-top:40px;background-color:#dcdcdc;border-radius:5px;" class="list-unstyled">时间:{{ post.date | date_to_string }}
+                <h2>
                     <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-                </h3>
+                </h2>
             </li>
             {% endfor %}
         </ul>
