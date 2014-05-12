@@ -1,0 +1,104 @@
+---
+layout: default 
+title: 矩阵连乘问题
+---
+
+<h2>{{ page.title }}</h2>
+
+<p>{{ page.date | date_to_string }}</p>
+<script>
+    $(window).load(function () {
+            $("pre").addClass("prettyprint linenums");
+            prettyPrint();
+})
+</script>
+
+<p>动态规划求解矩阵连乘</p>
+<pre>
+/**
+* This program use for testing matrix chain
+*
+* @version 1.0
+*/
+
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+
+using namespace std;
+
+
+int MatrixChain(int *p, int n, int **m, int **s){
+
+    //l=1矩阵最小代价为零
+	for(int i=1; i<n+1; i++) m[i][i] = 0;
+    //每次循环计算长度l=2,3,...的最小计算代价
+	for(int l=2; l<=n; l++){
+        //对于l=2时的理解
+		for(int i=1; i<=n-l+1; i++){
+            //j的取值
+			int j = i + l -1;
+			//这里取无穷大即可
+			m[i][j] = 999999;
+			//k只能有j-i中变化截取
+			for(int k=i; k<=j-1; k++){
+                //如何计算最小代价 从截断点左边加上右边 以及合并这两个矩阵的代价
+				int t = m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j];
+                //如果这样截断的代价小于已经保存的m[i][j]不截断 就换成现在的 记录分割点
+				if(t<m[i][j]){
+					m[i][j] = t;
+					s[i][j] = k;
+				}
+			}
+		}
+	}
+	return m[1][n];
+}
+
+void Traceback(int i, int j, int** s){
+
+	if(i == j) return;
+
+	Traceback(i, s[i][j], s);
+	Traceback(s[i][j]+1, j, s);
+
+	cout<<"Multiply A"<<i<<","<<s[i][j];
+	cout<<" and A"<<(s[i][j]+1)<<","<<j<<endl;
+}
+
+int main(){
+
+	const int length = 6;
+
+	int matrixChain[length+1] = {30, 35, 15, 5, 10, 20, 25};
+	int* p = matrixChain;
+
+	cout<<"Length of matrix: "<<length<<endl;
+
+	cout<<"p: ";
+	for(int i=0; i<length+1; i++)
+		cout<< *(p +i)<<" ";
+	cout<< endl;
+
+	cout<<"Matrix: ";
+	for(int i=1; i<length+1; i++)
+		cout<<matrixChain[i-1]<<" - "<<matrixChain[i]<<", ";
+	cout<<endl;
+
+	int **s = new int *[length+1];
+	for(int i =0; i<length+1; i++)
+		*(s+i) = new int [length+1];
+
+	int **m = new int *[length+1];
+	for(int i=0; i<length+1; i++)
+		*(m+i) = new int [length+1];
+
+	int minMultiplyNum = MatrixChain(p, length, m, s);
+	cout<<"The min multiply num: " << minMultiplyNum << endl;
+
+	Traceback(1, 6, s);
+	return 0;
+}
+
+
+</pre>

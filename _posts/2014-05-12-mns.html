@@ -1,0 +1,112 @@
+---
+layout: default 
+title: 电路布线问题
+---
+
+<h2>{{ page.title }}</h2>
+
+<p>{{ page.date | date_to_string }}</p>
+<script>
+    $(window).load(function () {
+            $("pre").addClass("prettyprint linenums");
+            prettyPrint();
+})
+</script>
+
+<p>动态规划求解电路布线问题</p>
+<pre>
+/**
+* This program can be used for circuit wire nets
+*
+* @author BaiQiang
+* @version 1.0 2014-4-17 19:30-20:50
+*/
+
+#include <iostream>
+using namespace std;
+
+int max(int, int);
+
+/**
+* 电路布线问题算法O(n^2)
+*
+* @perm 上端接线柱1,2,...,n对应下端接线柱号
+* @n 问题规模，接线柱个数
+* @size 结果矩阵，size[n][n]为n个接线柱同层最大连线数
+*/
+/*
+    ① j <π(i)。此时，(i,π(i)) 不属于N(i,j)。
+    故在这种情况下，N(i,j) = N(i-1,j)，从而Size(i,j)=Size(i-1,j)。
+    ② j ≥π(i)。此时，若(i, π(i))∈MNS(i,j)，则对任意(t, π(t))∈MNS(i,j)有t < i且π(t)< π(i)；
+    否则，(t, π(t))与(i, π(i))相交。在这种情况下MNS(i,j)-{(i, π(i))}是N(i-1, π(i)-1)的最大不相交子集。
+    否则，子集MNS(i-1, π(i)-1)∪{(i, π(i))}包含于N(i,j)是比MNS(i,j)更大的N(i,j)的不相交子集。
+    这与MNS(i,j)的定义相矛盾。
+      若(i, π(i))不属于MNS(i,j)，则对任意(t, π(t))∈MNS(i,j)，有t<i。从而MNS(i,j)包含于N(i-1,j)，
+    因此，Size(i,j)≤Size(i-1,j)。
+    另一方面，MNS(i-1,j)包含于N(i,j),故又有Size(i,j) ≥Size(i-1,j)，从而Size（i,j）= Size(i-1,j)。
+*/
+int MNS(int perm[], int n, int** size){
+
+	//矩阵求解初值，上端0个接线柱情况
+	for(int j = 0; j < n+1; j++) size[0][j] = 0;
+
+	for(int i = 1; i < n+1; i++){
+
+        //j<perm[i] 在对应垂直线左边
+		for(int j = 0; j < perm[i-1]; j++){
+			size[i][j] = size[i-1][j];
+		}
+		//perm[i]<j<n 在右边 加1
+		for(int j = perm[i-1]; j < n+1; j++){
+			//size[i][j] = max(size[i-1][j], size[i-1][perm[i-1]-1]+1);
+			size[i][j] =size[i-1][perm[i-1]-1]+1;
+		}
+	}
+
+	return size[n][n];
+}
+
+int max(int a, int b){
+	return a > b ? a : b;
+}
+
+void Traceback(int perm[], int** size, int n, int net[], int& m){
+	int j = n;
+	m = 0;
+
+	for(int i = n; i > 0; i--){
+		if (size[i][j] != size[i-1][j]){
+			net[m++] = size[i][j];
+			j = perm[i-1] - 1;
+		}
+	}
+}
+
+int main(){
+	const int n = 4;
+
+	int perm[n] = {4, 3,2,1};
+
+	//结果矩阵行列数比问题规模多1
+	int** size = new int* [n+1];
+
+	for(int i =0; i < n+1; i++)
+		*(size+i) = new int [n+1];
+
+	int net[n];
+	int m;
+
+	cout << "同层最大连线数为： " << endl;
+	cout << MNS(perm, n, size) << endl;
+
+	Traceback(perm, size, n, net, m);
+
+	cout << "The net is: " << endl;
+	cout << net[m-1];
+	for (int i = m-2; i >= 0 ; i--){
+		cout << ", " << net[i];
+	}
+}
+
+
+</pre>
