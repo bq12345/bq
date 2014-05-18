@@ -15,90 +15,89 @@ title: 矩阵连乘问题
 
 <p>动态规划求解矩阵连乘</p>
 <pre>
-/**
-* This program use for testing matrix chain
-*
-* @version 1.0
-*/
+<p>/**<br />
+* This program use for testing matrix chain<br />
+*<br />
+* @version 1.0<br />
+*/</p>
 
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
+<p>#include &lt;cstdio&gt;<br />
+#include &lt;cstdlib&gt;<br />
+#include &lt;iostream&gt;</p>
 
-using namespace std;
+<p>using namespace std;</p>
 
+<p><br />
+int MatrixChain(int *p, int n, int **m, int **s){</p>
 
-int MatrixChain(int *p, int n, int **m, int **s){
+<p>&nbsp; &nbsp; //l=1矩阵最小代价为零<br />
+&nbsp;&nbsp; &nbsp;for(int i=1; i&lt;n+1; i++) m[i][i] = 0;<br />
+&nbsp; &nbsp; //每次循环计算长度l=2,3,...的最小计算代价<br />
+&nbsp;&nbsp; &nbsp;for(int l=2; l&lt;=n; l++){<br />
+&nbsp; &nbsp; &nbsp; &nbsp; //对于l=2时的理解<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for(int i=1; i&lt;=n-l+1; i++){<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //j的取值<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;int j = i + l -1;<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//这里取无穷大即可<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;m[i][j] = 999999;<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;//k只能有j-i中变化截取<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for(int k=i; k&lt;=j-1; k++){<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //如何计算最小代价 从截断点左边加上右边 以及合并这两个矩阵的代价<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;int t = m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j];<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //如果这样截断的代价小于已经保存的m[i][j]不截断 就换成现在的 记录分割点<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if(t&lt;m[i][j]){<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;m[i][j] = t;<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;s[i][j] = k;<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;}<br />
+&nbsp;&nbsp; &nbsp;}<br />
+&nbsp;&nbsp; &nbsp;return m[1][n];<br />
+}</p>
 
-    //l=1矩阵最小代价为零
-	for(int i=1; i<n+1; i++) m[i][i] = 0;
-    //每次循环计算长度l=2,3,...的最小计算代价
-	for(int l=2; l<=n; l++){
-        //对于l=2时的理解
-		for(int i=1; i<=n-l+1; i++){
-            //j的取值
-			int j = i + l -1;
-			//这里取无穷大即可
-			m[i][j] = 999999;
-			//k只能有j-i中变化截取
-			for(int k=i; k<=j-1; k++){
-                //如何计算最小代价 从截断点左边加上右边 以及合并这两个矩阵的代价
-				int t = m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j];
-                //如果这样截断的代价小于已经保存的m[i][j]不截断 就换成现在的 记录分割点
-				if(t<m[i][j]){
-					m[i][j] = t;
-					s[i][j] = k;
-				}
-			}
-		}
-	}
-	return m[1][n];
-}
+<p>void Traceback(int i, int j, int** s){</p>
 
-void Traceback(int i, int j, int** s){
+<p>&nbsp;&nbsp; &nbsp;if(i == j) return;</p>
 
-	if(i == j) return;
+<p>&nbsp;&nbsp; &nbsp;Traceback(i, s[i][j], s);<br />
+&nbsp;&nbsp; &nbsp;Traceback(s[i][j]+1, j, s);</p>
 
-	Traceback(i, s[i][j], s);
-	Traceback(s[i][j]+1, j, s);
+<p>&nbsp;&nbsp; &nbsp;cout&lt;&lt;&quot;Multiply A&quot;&lt;&lt;i&lt;&lt;&quot;,&quot;&lt;&lt;s[i][j];<br />
+&nbsp;&nbsp; &nbsp;cout&lt;&lt;&quot; and A&quot;&lt;&lt;(s[i][j]+1)&lt;&lt;&quot;,&quot;&lt;&lt;j&lt;&lt;endl;<br />
+}</p>
 
-	cout<<"Multiply A"<<i<<","<<s[i][j];
-	cout<<" and A"<<(s[i][j]+1)<<","<<j<<endl;
-}
+<p>int main(){</p>
 
-int main(){
+<p>&nbsp;&nbsp; &nbsp;const int length = 6;</p>
 
-	const int length = 6;
+<p>&nbsp;&nbsp; &nbsp;int matrixChain[length+1] = {30, 35, 15, 5, 10, 20, 25};<br />
+&nbsp;&nbsp; &nbsp;int* p = matrixChain;</p>
 
-	int matrixChain[length+1] = {30, 35, 15, 5, 10, 20, 25};
-	int* p = matrixChain;
+<p>&nbsp;&nbsp; &nbsp;cout&lt;&lt;&quot;Length of matrix: &quot;&lt;&lt;length&lt;&lt;endl;</p>
 
-	cout<<"Length of matrix: "<<length<<endl;
+<p>&nbsp;&nbsp; &nbsp;cout&lt;&lt;&quot;p: &quot;;<br />
+&nbsp;&nbsp; &nbsp;for(int i=0; i&lt;length+1; i++)<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;cout&lt;&lt; *(p +i)&lt;&lt;&quot; &quot;;<br />
+&nbsp;&nbsp; &nbsp;cout&lt;&lt; endl;</p>
 
-	cout<<"p: ";
-	for(int i=0; i<length+1; i++)
-		cout<< *(p +i)<<" ";
-	cout<< endl;
+<p>&nbsp;&nbsp; &nbsp;cout&lt;&lt;&quot;Matrix: &quot;;<br />
+&nbsp;&nbsp; &nbsp;for(int i=1; i&lt;length+1; i++)<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;cout&lt;&lt;matrixChain[i-1]&lt;&lt;&quot; - &quot;&lt;&lt;matrixChain[i]&lt;&lt;&quot;, &quot;;<br />
+&nbsp;&nbsp; &nbsp;cout&lt;&lt;endl;</p>
 
-	cout<<"Matrix: ";
-	for(int i=1; i<length+1; i++)
-		cout<<matrixChain[i-1]<<" - "<<matrixChain[i]<<", ";
-	cout<<endl;
+<p>&nbsp;&nbsp; &nbsp;int **s = new int *[length+1];<br />
+&nbsp;&nbsp; &nbsp;for(int i =0; i&lt;length+1; i++)<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;*(s+i) = new int [length+1];</p>
 
-	int **s = new int *[length+1];
-	for(int i =0; i<length+1; i++)
-		*(s+i) = new int [length+1];
+<p>&nbsp;&nbsp; &nbsp;int **m = new int *[length+1];<br />
+&nbsp;&nbsp; &nbsp;for(int i=0; i&lt;length+1; i++)<br />
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;*(m+i) = new int [length+1];</p>
 
-	int **m = new int *[length+1];
-	for(int i=0; i<length+1; i++)
-		*(m+i) = new int [length+1];
+<p>&nbsp;&nbsp; &nbsp;int minMultiplyNum = MatrixChain(p, length, m, s);<br />
+&nbsp;&nbsp; &nbsp;cout&lt;&lt;&quot;The min multiply num: &quot; &lt;&lt; minMultiplyNum &lt;&lt; endl;</p>
 
-	int minMultiplyNum = MatrixChain(p, length, m, s);
-	cout<<"The min multiply num: " << minMultiplyNum << endl;
-
-	Traceback(1, 6, s);
-	return 0;
-}
-
+<p>&nbsp;&nbsp; &nbsp;Traceback(1, 6, s);<br />
+&nbsp;&nbsp; &nbsp;return 0;<br />
+}</p>
 
 </pre>
