@@ -34,3 +34,19 @@ title: Backbone
     }
 
    </pre>
+
+<p>如何设置id</p>
+        <pre>
+    window.app.IHoliday = Backbone.Model.extend({
+        urlRoot: HOLIDAY_URL,
+        idAttribute: 'holiday_id',
+        // Default attributes for the holiday.
+        defaults: {
+        },
+
+        initialize: function (props) {
+        }
+    });
+
+    var Holiday = new window.app.IHoliday({holiday_id: holiday_id });
+        </pre>
