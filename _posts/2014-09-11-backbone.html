@@ -6,7 +6,12 @@ title: Backbone
 <h2>{{ page.title }}</h2>
 
 <p>{{ page.date | date_to_string }}</p>
-
+<script>
+    $(window).load(function () {
+        $("pre").addClass("prettyprint linenums");
+        prettyPrint();
+    })
+</script>
 
 <p>Backbone如何得知attribute has changed</p>
         <code>
