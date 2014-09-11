@@ -1,5 +1,5 @@
 ---
-layout: default 
+layout: default
 title: Backbone
 ---
 
@@ -14,23 +14,23 @@ title: Backbone
 </script>
 
 <p>Backbone如何得知attribute has changed</p>
-        <code>
-            //...
+<pre>
+        //...
 
-            // Run validation.
-            if (!options.silent && this.validate && !this._performValidation(attrs, options)) return false;
+    // Run validation.
+    if (!options.silent && this.validate && !this._performValidation(attrs, options)) return false;
 
-            //...
+    //...
 
-            // Update attributes.
-            for (var attr in attrs) {
-            var val = attrs[attr];
-            if (!_.isEqual(now[attr], val)) {
+    // Update attributes.
+    for (var attr in attrs) {
+        var val = attrs[attr];
+        if (!_.isEqual(now[attr], val)) {
             now[attr] = val;
             delete escaped[attr];
             this._changed = true;
             if (!options.silent) this.trigger('change:' + attr, this, val, options);
-            }
-            }
+        }
+    }
 
-        </code>
+   </pre>
