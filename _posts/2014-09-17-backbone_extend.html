@@ -1,0 +1,109 @@
+---
+layout: default
+title: Backbone
+---
+
+<h2>{{ page.title }}</h2>
+
+<p>{{ page.date | date_to_string }}</p>
+<script>
+    $(window).load(function () {
+        $("pre").addClass("prettyprint linenums");
+        prettyPrint();
+    })
+</script>
+
+<p>Backbone的继承函数</p>
+<pre>
+    //共享空构造函数来帮助创建原型链。代理模式，只继承原型属性
+    var ctor = function () {
+    };
+
+
+    //parent, protoProps, staticProps
+    //父类，实例属性，静态属性我一般用的少
+    var inherits = function (parent, protoProps, staticProps) {
+        //构造的实例对象
+        var child;
+
+        //判断protoProps是否一个原型对象（prototype），如果是则将child赋值为原型对象所属的构造函数
+        if (protoProps && protoProps.hasOwnProperty('constructor')) {
+            child = protoProps.constructor;
+        } else {
+            //当子类没有提供特定的constructor的时候，应该调用父类的。
+            /**
+             * 否则将新建一个构造函数赋值给child
+             * child = function () {}其实是要在new的时候才会
+             * 调用的，所以我们先假设我们设置的字段里面没有constructor，
+             * 所以当我们通过var temptA = new Tempt()的时候，
+             * 调用的是function () {Model.apply(temptA, arguments)},
+             **/
+            child = function () {
+                //inherits函数返回的是一个构造函数，我们会用new child()来调用此构造函数
+                //（例如：AppView = Backbone.View.extend({});var appView=new AppView();）,
+                // 所以此处的this指向我们new的实例（例如var appView=new AppView(),则this指向appView）
+                //new AppView进行的操作其实是Backbone.Model.apply(this,arguments) ,
+                // 也就是说我们实例化appView的时候其实是调用Backbone.Model
+
+                //实例对象调用Backbone.Model
+                parent.apply(this, arguments);
+            };
+        }
+
+        //复制静态属性parent -> child ,模型的属性复制给实例对象
+        _.extend(child, parent);
+        //这个函数是在Underscore里面定义的
+        // 将一个或多个对象的属性(包含原型链中的属性), 复制到obj对象, 如果存在同名属性则覆盖
+        /*
+        _.extend = function (obj) {
+            // each循环参数中的一个或多个对象
+            each(slice.call(arguments, 1), function (source) {
+                // 将对象中的全部属性复制或覆盖到obj对象
+                for (var prop in source) {
+                    obj[prop] = source[prop];
+                }
+            });
+            return obj;
+        };
+        */
+
+        /*
+         * proxy来实现继承，这样就避免了在classical继承中出现的parent的constructor被使用两次带来
+         * 的效率问题和在原型链中再次继承this的属性
+         *  function obj (o){
+         *      var f = {}
+         *      f.prototype = o
+         *      return new f();
+         *  }
+         */
+        //ctor是一个内容为空的构造函数，此处将其原型对象设置为Backbone.View.prototype
+        ctor.prototype = parent.prototype;
+        //将child的原型对象设置为一个ctor的实例，child.prototype.contructor指向ctor
+        child.prototype = new ctor();
+
+        /**
+         * 给新的类指定实例属性和静态属性的功能
+         **/
+        //将Backbone.View.extend的第二个参数（一般是一个对象）的的所有属性复制到child.prototype
+        if (protoProps) _.extend(child.prototype, protoProps);
+
+        //将Backbone.View.extend的第三个参数（一般是一个对象）的的所有属性复制到child，也就是给child设置静态属性或方法
+        if (staticProps) _.extend(child, staticProps);
+
+        //执行完child.prototype=new ctor后，child.prototype.constructor已经不指向child，所以此处需要显示设置
+        child.prototype.constructor = child;
+
+        //EcmaScript中并没有定义__super__这个属性，可以在现代浏览器看到继承关系
+        child.__super__ = parent.prototype;
+
+        return child;
+
+        /**
+         *  new 自定义View等() 所属类--> child（用户创造的构造函数）
+         *  原型对象--> ctor的一个实例（我们自定义的一些函数和方法都设置到此实例上）
+         *  原型对象--> Backbon.View.prototype
+         **/
+    };
+
+   </pre>
+
