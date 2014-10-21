@@ -1,0 +1,116 @@
+---
+layout: default
+title: HTML5 Device API
+---
+
+<h2>{{ page.title }}</h2>
+
+<p>{{ page.date | date_to_string }}</p>
+<script>
+    $(window).load(function () {
+        $("pre").addClass("prettyprint linenums");
+        prettyPrint();
+    })
+</script>
+
+<p>设备是否支持震动事件</p>
+<pre>
+    if (navigator.vibrate) {
+
+           navigator.vibrate(2000);
+
+    } else if (navigator.webkitVibrate) {
+
+           navigator.webkitVibrate(2000);
+
+    }
+//还可以这样 Navigator.vibrate([2000,1000,5000]);此时表示触屏设备振动2秒钟，静止1秒后，再次振动5秒钟。
+</pre>
+<hr/>
+<p>Geolocation API</p>
+<pre>
+    if (navigator.geolocation || navigator.webkitGeolocation) //监测浏览器是否支持获取地理位置Api
+        function getPosition() {
+        var nav = navigator.geolocation || navigator.webkitGeolocation;
+        nav.getCurrentPosition(success, error, {maximumAge:600000, timeout:12000});//调用getCurrentPosition方法
+
+    }
+    //成功回调函数：
+    function success(position) {
+        console.log(position)
+    }
+
+    //enableHighAccuracy：它将告诉浏览器是否启用高精度设备。
+
+    //Timeout：超时，获取位置信息时超出设定的这个时长，将会触发错误，捕获错误的函数将被调用，并且错误码指向TIMEOUT。
+
+    //maximumAge：缓存时间 缓存时间过后浏览器会再次调用getCurrentPosition方法。   
+</pre>
+<hr/>
+<p>Battery API</p>
+<pre>
+    var battery = navigator.battery || navigator.webkitBattery , intervalId = 0;
+    var batteryWidth = 210 / 1.5 * battery.level;
+    document.getElementById('_batteryId').style.width = 210 / 1.5 * battery.level + "px";
+    if (battery.level < 1) {
+        document.getElementById('_batteryTxtId').innerHTML = "电量未满，插上充电器试试";
+    } else if (battery.level == 1) {
+        document.getElementById('_batteryTxtId').innerHTML = "电量满，不需要充电";
+    }
+    battery.onchargingchange = function () {
+        //当电池的充电状态改变后会触发此函数    
+    };
+
+    battery.onlevelchange = function () {
+        //当电池电量变化时候触发此处函数
+    };
+
+</pre>
+<hr/>
+<p>navigator.getUserMedia</p>
+<pre>
+    navigator.getUserMedia ( constraints, successCallback, errorCallback );
+    //目前好像支持度不是很广
+</pre>
+
+<hr/>
+<p>Deviceorientation</p>
+<pre>
+    function update(evt) {
+        heading = evt.alpha;//获取z轴上的旋转角度
+    }
+
+    function paint() {
+        ww = canvas.width;
+        wh = canvas.height;
+        ctx.fillStyle = "#b29b72";
+        ctx.fillRect(0, 0, ww, wh);
+        ctx.save();
+        ctx.translate(ww / 2, ww / 2);
+        ctx.rotate(Math.PI * current_heading / 180);//根据角度旋转图片
+        ctx.drawImage(imageObj_arrow, -ww / 2, -wh / 2, ww, wh);
+        ctx.restore();
+
+        deg1 = heading - current_heading;
+        deg2 = 360 - Math.abs(deg1);
+        step = 0;
+        if (Math.abs(deg1) < Math.abs(deg2)) {
+            step = Math.min(Math.abs(deg1) / 15, max_speed);
+            step = deg1 > 0 ? step : -step;
+        }
+        else {
+            step = Math.min(deg2 / 15, max_speed);
+            step = deg1 > 0 ? -step : step;
+        }
+        current_heading += step;
+        setTimeout("paint();", 33);//定时重置指针方向
+    }
+    if ("ondeviceorientation" in window) {
+      isSupported = true;
+      window.addEventListener("deviceorientation", update, false);
+    } else {
+      isSupported = false;
+      $.status = 'noDeviceorientation';
+      showPop();
+    }
+</pre>
