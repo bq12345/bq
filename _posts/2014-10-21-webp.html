@@ -1,0 +1,94 @@
+---
+layout: default
+title: 判断浏览器支不支持WebP
+---
+
+<h2>{{ page.title }}</h2>
+
+<p>{{ page.date | date_to_string }}</p>
+<script>
+    $(window).load(function () {
+        $("pre").addClass("prettyprint linenums");
+        prettyPrint();
+    })
+</script>
+
+<p>如何判断浏览器是否支持WebP</p>
+<pre>
+// from yunqian@taobao.com
+// https://github.com/sorrycc/webp-support/blob/master/lib/webp.js
+(function(window){
+    
+    function isSupportStorage(cb) {
+        //首先看localStorage是否有webpsupport 有的话就直接设置为取得的value的值
+        //注意此时的cb function (isSupport) {cb(WebP._isSupport = isSupport);} 被传入参数为val === 'true'
+        var val = window.localStorage && window.localStorage.getItem('webpsupport');
+        if (val !== null) {
+            cb(val === 'true');
+            return;
+        }
+        //不存在的话就Test一下
+        isSupportTest(function (isSupport) {
+            //写入localStorage方便下次使用
+            window.localStorage && window.localStorage.setItem('webpsupport', isSupport);
+            //返回给callback函数
+            cb(isSupport);
+        });
+    }
+
+    function isSupportTest(cb) {
+
+        /* 注意此时的cb
+        * function (isSupport) {
+        *   window.localStorage && window.localStorage.setItem('webpsupport', isSupport);
+        *   cb(isSupport);
+        *}
+        */
+        //创建一个Image 注意监听onload、onerror完之后再设置src
+        var img = new Image(), loaded;
+        img.onload = img.onerror = function () {
+            if (!loaded) {
+                loaded = true;
+                //看img的宽度和高度是不是对的 并返回给callback
+                cb(img.width === 2 && img.height === 2);
+            }
+        };
+        //过16ms就不坚持了，认为是不支持的
+        setTimeout(function () {
+            if (!loaded) {
+                loaded = true;
+                cb(false);
+            }
+        }, 16);
+        img.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+    }
+    //WebP
+    var WebP = window.WebP = {};
+    //暴露的函数
+    WebP.isSupport = function (cb) {
+        if (!cb) return;
+        if (WebP._isSupport === undefined) {
+            isSupportStorage(function (isSupport) {
+                cb(WebP._isSupport = isSupport);
+            });
+            return;
+        }
+        cb(WebP._isSupport);
+    };
+    
+}(this));
+
+</pre>
+
+<p>How to use?</p>
+<pre>
+    <script>
+        WebP.isSupport(function(tf){
+            if(tf){
+                alert('yes')
+            }else{
+                alert('no')
+            }
+        })
+    </script>
+</pre>
