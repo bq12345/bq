@@ -1,0 +1,128 @@
+---
+layout: default
+title: textarea自动增高
+---
+<h2>{{ page.title }}</h2>
+<p>可以直接在下面试一下</p>
+<script>
+    $(window).load(function () {
+        $("pre").addClass("prettyprint linenums");
+        prettyPrint();
+    })
+</script>
+<textarea data-adaptheight rows="2" cols="100" placeholder="Your input"
+style="padding: 16px; line-height: 1.5;"></textarea>
+<script>
+(function() {
+    function adjustHeight(textareaElement, minHeight) {
+        // compute the height difference which is caused by border and outline
+        // 计算因边框和轮廓产生的高度差异
+        var outerHeight = parseInt(window.getComputedStyle(el).height, 10);
+        var diff = outerHeight - el.clientHeight;
+ 
+        // set the height to 0 in case of it has to be shrinked
+        // 设置高度为0以防需要收缩（高度）
+        el.style.height = 0;
+ 
+        // set the correct height
+        // el.scrollHeight is the full height of the content, not just the visible part
+        // 设置正确的高度
+        // el.scrollHeight 是文本内容的全部高度，而不仅仅是可见部分的。
+        el.style.height = Math.max(minHeight, el.scrollHeight + diff) + 'px';
+    }
+ 
+    // we use the "data-adaptheight" attribute as a marker
+    // 我们使用"data-adaptheight"属性作为一个标记
+    var textAreas = document.querySelectorAll('textarea[data-adaptheight]');
+    console.log(textAreas)
+    // iterate through all the textareas on the page
+    // 迭代本页所有的文本域
+    for (var i = 0, l = textAreas.length; i < l; i++) {
+        var el = textAreas[i];
+ 
+        // we need box-sizing: border-box, if the textarea has padding
+        // 如果文本域有边距，我们需要设置box-sizing: border-box
+        el.style.boxSizing = el.style.mozBoxSizing = 'border-box';
+ 
+        // we don't need any scrollbars, do we? <img src="http://web.jobbole.com/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"> 
+        // 我们不需要滚动条，不是么？ <img src="http://web.jobbole.com/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"> 
+        el.style.overflowY = 'hidden';
+ 
+        // the minimum height initiated through the "rows" attribute
+        // 通过"rows"属性初始化的最小高度
+        var minHeight = el.scrollHeight;
+ 
+        el.addEventListener('input', function() {
+            adjustHeight(el, minHeight);
+        });
+ 
+        // we have to readjust when window size changes (e.g. orientation change)
+        // 当窗口大小改变时，我们需要重新调整高度（例如方向变化）
+        window.addEventListener('resize', function() {
+            adjustHeight(el, minHeight);
+        });
+ 
+        // we adjust height to the initial content
+        // 我们调整初始内容的高度
+        adjustHeight(el, minHeight);
+    }
+}());
+</script>
+
+<pre>
+(function() {
+    function adjustHeight(textareaElement, minHeight) {
+        // compute the height difference which is caused by border and outline
+        // 计算因边框和轮廓产生的高度差异
+        var outerHeight = parseInt(window.getComputedStyle(el).height, 10);
+        var diff = outerHeight - el.clientHeight;
+
+        // set the height to 0 in case of it has to be shrinked
+        // 设置高度为0以防需要收缩（高度）
+        el.style.height = 0;
+
+        // set the correct height
+        // el.scrollHeight is the full height of the content, not just the visible part
+        // 设置正确的高度
+        // el.scrollHeight 是文本内容的全部高度，而不仅仅是可见部分的。
+        el.style.height = Math.max(minHeight, el.scrollHeight + diff) + 'px';
+    }
+
+    // we use the "data-adaptheight" attribute as a marker
+    // 我们使用"data-adaptheight"属性作为一个标记
+    var textAreas = document.querySelectorAll('textarea[data-adaptheight]');
+    console.log(textAreas)
+    // iterate through all the textareas on the page
+    // 迭代本页所有的文本域
+    for (var i = 0, l = textAreas.length; i < l; i++) {
+        var el = textAreas[i];
+
+        // we need box-sizing: border-box, if the textarea has padding
+        // 如果文本域有边距，我们需要设置box-sizing: border-box
+        el.style.boxSizing = el.style.mozBoxSizing = 'border-box';
+
+        // we don't need any scrollbars, do we?
+        // 我们不需要滚动条，不是么？
+        el.style.overflowY = 'hidden';
+
+        // the minimum height initiated through the "rows" attribute
+        // 通过"rows"属性初始化的最小高度
+        var minHeight = el.scrollHeight;
+
+        el.addEventListener('input', function() {
+            adjustHeight(el, minHeight);
+        });
+
+        // we have to readjust when window size changes (e.g. orientation change)
+        // 当窗口大小改变时，我们需要重新调整高度（例如方向变化）
+        window.addEventListener('resize', function() {
+            adjustHeight(el, minHeight);
+        });
+
+        // we adjust height to the initial content
+        // 我们调整初始内容的高度
+        adjustHeight(el, minHeight);
+    }
+}());
+
+</pre>
