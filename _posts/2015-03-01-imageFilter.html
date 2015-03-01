@@ -11,10 +11,10 @@ title: Canvas图片滤镜
 <h3>
 <a id="user-content-webwork" class="anchor" href="#webwork" aria-hidden="true"><span class="octicon octicon-link"></span></a>WebWork</h3>
 
-<p>首先来了解下WebWork的使用，因为处理图像需要大量的运算，而JavaScript是单线程运行的，所以
-应该使用WebWork来进行像素级处理</p>
+<p>首先来了解下WebWorker的使用，因为处理图像需要大量的运算，而JavaScript是单线程运行的，所以
+应该使用WebWorker来进行像素级处理</p>
 
-<p>WebWork的使用应该是先创建一个Work</p>
+<p>先创建一个Worker</p>
 
 <blockquote>
 <p>var worker = new Worker('ImageWork.js');</p>
