@@ -1,7 +1,7 @@
 利用Canvas实现各种滤镜效果
 ===
 
-###WebWork###
+ ### WebWork ### 
 
 首先来了解下WebWork的使用，因为处理图像需要大量的运算，而JavaScript是单线程运行的，所以
 应该使用WebWork来进行像素级处理
@@ -25,7 +25,7 @@ ImageWork.coffee 应该这样实现一个onmessage函数
 
 ***
 
-###首先应该得到图像的像素，可以如下操作###
+ ### 首先应该得到图像的像素，可以如下操作 ### 
 
 1.定义img并给它添加点击事件
 
@@ -45,13 +45,13 @@ ImageWork.coffee 应该这样实现一个onmessage函数
 
 3.像素处理
 
-    ###
+     ### 
     对于得到的pixels进行两次for循环利用 i = (x + y * width) * 4 得到当前索引
     然后imgData[i] 为R通道
     imgData[i+1] 为G通道
     imgData[i+2] 为B通道
     imgData[i+3] 为Alpha通道
-    ###
+     ### 
 
 4.展示处理后的img
 
@@ -65,7 +65,7 @@ ImageWork.coffee 应该这样实现一个onmessage函数
 
 ***
 
-###下面看看具体算法实现###
+ ### 下面看看具体算法实现 ### 
 
 
 1.灰度
@@ -98,12 +98,12 @@ ImageWork.coffee 应该这样实现一个onmessage函数
           r = data[i]
           g = data[i + 1]
           b = data[i + 2]
-          ###
+           ### 
           算法及原理：
           求RGB平均值Avg ＝ (R + G + B) / 3，如果Avg >= 100，则新的颜色值为R＝G＝B＝255；
           如果Avg < 100，则新的颜色值为R＝G＝B＝0；255就是白色，0就是黑色；
           为什么用100作比较，设置为128也可以，可以根据效果来调整。
-          ###
+           ### 
           AVG = (r + g + b) / 3
           if AVG > 100
             data[i] = 255
