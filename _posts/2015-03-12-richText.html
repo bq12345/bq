@@ -4,6 +4,9 @@ title: 富文本编辑器
 ---
 
 <style type="text/css">
+    #simpleForm{
+        margin-top: 200px;
+    }
     .intLink {
         cursor: pointer;
     }
@@ -17,8 +20,8 @@ title: 富文本编辑器
     }
 
     #textBox {
-        width: 540px;
-        height: 200px;
+        width: 800px;
+        height: 400px;
         border: 1px #000000 solid;
         padding: 12px;
         overflow: scroll;
@@ -35,7 +38,12 @@ title: 富文本编辑器
         cursor: pointer;
     }
 </style>
-<form name="compForm" method="post" action="sample.php"
+
+<h1>一个简易的富文本编辑器</h1>
+
+<h3>---------摘自网络</h3>
+
+<form id="simpleForm" name="compForm" method="post" action="sample.php"
       onsubmit="if(validateMode()){this.myDoc.value=oDoc.innerHTML;return true;}return false;">
     <input type="hidden" name="myDoc">
 
@@ -126,7 +134,7 @@ title: 富文本编辑器
         <img class="intLink" title="Paste" onclick="formatDoc('paste');"
              src="data:image/gif;base64,R0lGODlhFgAWAIQUAD04KTRLY2tXQF9vj414WZWIbXmOrpqbmpGjudClFaezxsa0cb/I1+3YitHa7PrkIPHvbuPs+/fvrvv8/f///////////////////////////////////////////////yH5BAEAAB8ALAAAAAAWABYAAAWN4CeOZGmeaKqubGsusPvBSyFJjVDs6nJLB0khR4AkBCmfsCGBQAoCwjF5gwquVykSFbwZE+AwIBV0GhFog2EwIDchjwRiQo9E2Fx4XD5R+B0DDAEnBXBhBhN2DgwDAQFjJYVhCQYRfgoIDGiQJAWTCQMRiwwMfgicnVcAAAMOaK+bLAOrtLUyt7i5uiUhADs="/>
     </div>
-    <div id="textBox" contenteditable="true"><p>Lorem ipsum</p></div>
+    <div id="textBox" contenteditable="true"><p>Bai Qiang</p></div>
     <p id="editMode"><input type="checkbox" name="switchMode" id="switchBox" onchange="setDocMode(this.checked);"/>
         <label for="switchBox">Show HTML</label></p>
 </form>
