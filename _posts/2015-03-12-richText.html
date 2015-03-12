@@ -9,6 +9,7 @@ title: 富文本编辑器
     }
     .intLink {
         cursor: pointer;
+        font-size: 14px;
     }
 
     img.intLink {
@@ -41,7 +42,7 @@ title: 富文本编辑器
 
 <h2>一个简易的富文本编辑器</h2>
 
-<p>---------摘自网络，具体地方忘记了。主要是用 <code>document.execCommand(cmd, false, value);</code></p>
+<p>---------摘自网络，具体地方忘记了。主要是用 <code>document.execCommand(cmd, boolean, value);</code></p>
 
 <form id="simpleForm" name="compForm" method="post" action="sample.php"
       onsubmit="if(validateMode()){this.myDoc.value=oDoc.innerHTML;return true;}return false;">
