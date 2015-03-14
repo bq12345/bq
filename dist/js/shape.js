@@ -91,8 +91,6 @@ S.Drawing = (function () {
 
 S.UI = (function () {
     var input = document.querySelector('.ui-input'),
-        ui = document.querySelector('.ui'),
-        overlay = document.querySelector('.overlay'),
         canvas = document.querySelector('.canvas'),
         interval,
         isTouch = false, //('ontouchstart' in window || navigator.msMaxTouchPoints),
@@ -397,7 +395,7 @@ S.Dot.prototype = {
 
 
 S.ShapeBuilder = (function () {
-    var gap = 13,
+    var gap = 1,
         shapeCanvas = document.createElement('canvas'),
         shapeContext = shapeCanvas.getContext('2d'),
         fontSize = 500,
