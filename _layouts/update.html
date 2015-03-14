@@ -89,36 +89,6 @@
     </style>
 
     <style>
-
-        body {
-            font-family: "Avenir", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background: #79a8ae;
-            color: #666;
-            font-size: 16px;
-            line-height: 1.5em;
-        }
-
-        h1 {
-            color: #111;
-            margin: 0 0 12px 0;
-            font-size: 24px;
-            line-height: 1.5em;
-        }
-
-        p {
-            margin: 0 0 10px 0;
-        }
-
-        a {
-            color: #888;
-            text-decoration: none;
-            border-bottom: 1px solid #ccc;
-        }
-
-        a:hover {
-            border-bottom-color: #888;
-        }
-
         body,
         .overlay {
             -webkit-perspective: 1000;
@@ -126,16 +96,6 @@
         }
 
         .body--ready {
-            /* Ideas
-            background: -webkit-linear-gradient(top, #e2b986 -10%, #241c35 140%);
-            background: -webkit-linear-gradient(top, #c97369 -40%, #241c35 130%);
-            background: -webkit-linear-gradient(top, #fac4c4 -10%, #606386 140%);
-            background: -webkit-linear-gradient(top, #519ab0 0%, #414A6D 110%);
-            background: -webkit-linear-gradient(top, rgb(129, 0, 170) 0%, rgb(43, 4, 114) 110%);
-            background: -webkit-linear-gradient(top, rgb(163, 235, 189) 0%, rgb(16, 93, 145) 110%);
-            background: -webkit-linear-gradient(top, rgb(165, 103, 189) 0%, rgb(75, 233, 214) 120%);
-            */
-
             background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
             background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
             background: -o-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
@@ -207,58 +167,6 @@
 
         .ui--wide .ui-return {
             right: -20px;
-        }
-
-        .help {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            width: 25px;
-            height: 25px;
-            text-align: center;
-            font-size: 13px;
-            line-height: 27px;
-            font-weight: bold;
-            cursor: pointer;
-            background: #fff;
-            color: #79a8ae;
-            opacity: .9;
-
-            -webkit-transition: opacity 0.1s cubic-bezier(0.694, 0.0482, 0.335, 1);
-            -moz-transition: opacity 0.1s cubic-bezier(0.694, 0.0482, 0.335, 1);
-            -ms-transition: opacity 0.1s cubic-bezier(0.694, 0.0482, 0.335, 1);
-            -o-transition: opacity 0.1s cubic-bezier(0.694, 0.0482, 0.335, 1);
-            transition: opacity 0.1s cubic-bezier(0.694, 0.0482, 0.335, 1);
-        }
-
-        .help:hover {
-            opacity: 1;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 550px;
-            height: 490px;
-            margin: -260px 0 0 -275px;
-            opacity: 0;
-
-            -webkit-transform: rotateY(90deg);
-            -moz-transform: rotateY(90deg);
-            -ms-transform: rotateY(90deg);
-            -o-transform: rotateY(90deg);
-            transform: rotateY(90deg);
-        }
-
-        .overlay--visible {
-            opacity: 1;
-
-            -webkit-transform: rotateY(0);
-            -moz-transform: rotateY(0);
-            -ms-transform: rotateY(0);
-            -o-transform: rotateY(0);
-            transform: rotateY(0);
         }
 
         .ui-share,
