@@ -3,6 +3,8 @@
 <head>
     {% include header.html %}
     <style type="text/css">
+
+        /*菜单的CSS*/
         * {
             box-sizing: border-box;
         }
@@ -87,9 +89,7 @@
             font-size: 14px;
             box-shadow: 1px 1px 3px 2px #dfdfdf;
         }
-    </style>
-
-    <style>
+       /* Canvas部分的CSS*/
 
         .canvas{
             position: fixed;
@@ -154,23 +154,12 @@
             right: -20px;
         }
 
-        .ui-share,
-        .ui-details {
-            opacity: .9;
-            background: #fff;
-            z-index: 2;
-        }
-
-        .ui-details-content,
-        .ui-share-content {
-            padding: 100px 50px;
-        }
-
         .touch .ui-input {
             display: none;
         }
 
     </style>
+
 </head>
 <body>
 <div id="fold_box" class="P800">
@@ -193,7 +182,7 @@
 
                         <div class="T3D fold_pager"
                              style="transform: rotateX(-180deg); -webkit-transform: rotateX(-180deg);">
-                            <a href="{{ site.baseurl }}love.html" target="_blank">爱你</a>
+                            <a href="{{ site.baseurl }}love.html" target="_blank">Forever</a>
 
                             <div class="T3D fold_pager"
                                  style="transform: rotateX(-180deg); -webkit-transform: rotateX(-180deg);">

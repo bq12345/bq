@@ -2,43 +2,55 @@
 <html>
 <head>
     {% include header.html %}
+    <style>
+        .navbar .navbar-header a {
+            transition: all .5s;
+            -moz-transition: all .5s;
+            -o-transition: all .5s;
+            -webkit-transition: width .5s;
+        }
+        .navbar .navbar-header a:hover{
+            background: #ffffee;
+            color: #111111;
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="https://github.com/bq12345/bq/">白强</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{ site.baseurl }}index.html">首页</a>
-                    </li>
-                    <li>
-                        <a href="{{ site.baseurl }}blog.html">博客</a>
-                    </li>
-                    <li>
-                        <a href="{{ site.baseurl }}about.html">关于</a>
-                    </li>
-                    <li>
-                        <a href="{{ site.baseurl }}baiqiang.html" target="_blank">简历</a>
-                    </li>
-                     <li>
-                        <a href="{{ site.baseurl }}love.html" target="_blank">爱你</a>
-                    </li>
-                </ul>
-            </div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="https://github.com/bq12345/bq/">白强</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{{ site.baseurl }}index.html">首页</a>
+                </li>
+                <li>
+                    <a href="{{ site.baseurl }}blog.html">博客</a>
+                </li>
+                <li>
+                    <a href="{{ site.baseurl }}about.html">关于</a>
+                </li>
+                <li>
+                    <a href="{{ site.baseurl }}baiqiang.html" target="_blank">简历</a>
+                </li>
+                <li>
+                    <a href="{{ site.baseurl }}love.html" target="_blank">Forever</a>
+                </li>
+            </ul>
         </div>
     </div>
+</div>
 
-    <div class="jumbotron">
-        <div class="container">
-            {{ content }}
-        </div>
+<div class="jumbotron">
+    <div class="container">
+        {{ content }}
     </div>
+</div>
 
-    <!-- ==============Footer===========-->
-    {% include footer.html %}
+<!-- ==============Footer===========-->
+{% include footer.html %}
 </body>
 
 </html>
