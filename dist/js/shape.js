@@ -91,6 +91,7 @@ S.Drawing = (function () {
 
 S.UI = (function () {
     var input = document.querySelector('.ui-input'),
+        ui = document.querySelector('.ui'),
         canvas = document.querySelector('.canvas'),
         interval,
         isTouch = false, //('ontouchstart' in window || navigator.msMaxTouchPoints),
