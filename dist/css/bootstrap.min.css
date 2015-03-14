@@ -296,7 +296,6 @@ a {
 
 a:hover, a:focus {
     color: #2a6496;
-    text-decoration: underline
 }
 
 a:focus {
@@ -3933,7 +3932,6 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
     position: relative;
     min-height: 50px;
     margin-bottom: 20px;
-    border: 1px solid transparent
 }
 
 @media (min-width: 768px) {
