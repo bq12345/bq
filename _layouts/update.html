@@ -89,7 +89,12 @@
     </style>
 
     <style>
-        body,
+
+        .canvas{
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
         .overlay {
             -webkit-perspective: 1000;
             -webkit-perspective-origin-y: 25%;
@@ -488,12 +493,7 @@
         });
     });
 </script>
-        <div class="container">
             {{ content }}
-        </div>
-
-    <!-- ==============Footer===========-->
-    {% include footer.html %}
 </body>
 
 </html>
