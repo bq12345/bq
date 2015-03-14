@@ -149,7 +149,6 @@ S.UI = (function () {
             value,
             current;
 
-        overlay.classList.remove('overlay--visible');
         sequence = typeof(value) === 'object' ? value : sequence.concat(value.split('|'));
         input.value = '';
         checkInputWidth();
