@@ -1,4 +1,3 @@
-
 /*
  ------------
  https://github.com/kennethcachia/Shape-Shifter
@@ -7,18 +6,11 @@
 
 var S = {
     init: function () {
-        var action = window.location.href,
-            i = action.indexOf('?a=');
+        var action = window.location.href;
 
         S.Drawing.init('.canvas');
         document.body.classList.add('body--ready');
-
-        if (i !== -1) {
-            S.UI.simulate(decodeURI(action).substring(i + 3));
-        } else {
-            S.UI.simulate('Hello|BaiQiang|Start|#rectangle|#countdown 3||');
-        }
-
+        S.UI.simulate('Hello|BaiQiang|Start|#countdown 3||');
         S.Drawing.loop(function () {
             S.Shape.render();
         });
@@ -30,12 +22,12 @@ S.Drawing = (function () {
     var canvas,
         context,
         renderFn
-    requestFrame = window.requestAnimationFrame       ||
+    requestFrame = window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame    ||
-    window.oRequestAnimationFrame      ||
-    window.msRequestAnimationFrame     ||
-    function(callback) {
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (callback) {
         window.setTimeout(callback, 1000 / 60);
     };
 
@@ -67,7 +59,7 @@ S.Drawing = (function () {
         },
 
         getArea: function () {
-            return { w: canvas.width, h: canvas.height };
+            return {w: canvas.width, h: canvas.height};
         },
 
         drawCircle: function (p, c) {
@@ -232,7 +224,6 @@ S.UI = (function () {
         input.addEventListener('focus', checkInputWidth);
 
 
-
     }
 
     function init() {
@@ -250,7 +241,6 @@ S.UI = (function () {
         }
     }
 }());
-
 
 
 S.Point = function (args) {
@@ -271,7 +261,7 @@ S.Color = function (r, g, b, a) {
 
 S.Color.prototype = {
     render: function () {
-        return 'rgba(' + this.r + ',' +  + this.g + ',' + this.b + ',' + this.a + ')';
+        return 'rgba(' + this.r + ',' + +this.g + ',' + this.b + ',' + this.a + ')';
     }
 };
 
@@ -435,7 +425,7 @@ S.ShapeBuilder = (function () {
             }
         }
 
-        return { dots: dots, w: w + fx, h: h + fy };
+        return {dots: dots, w: w + fx, h: h + fy};
     }
 
     function setFontSize(s) {
@@ -512,7 +502,7 @@ S.ShapeBuilder = (function () {
                 }
             }
 
-            return { dots: dots, w: width, h: height };
+            return {dots: dots, w: width, h: height};
         }
     };
 }());
