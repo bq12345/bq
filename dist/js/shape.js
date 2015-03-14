@@ -24,7 +24,7 @@ var S = {
         if (i !== -1) {
             S.UI.simulate(decodeURI(action).substring(i + 3));
         } else {
-            S.UI.simulate('Welcome|Bai|Qiang|to start|#rectangle|#countdown 3||');
+            S.UI.simulate('Hello|Bai|Qiang|Start|#rectangle|#countdown 3||');
         }
 
         S.Drawing.loop(function () {
@@ -242,9 +242,6 @@ S.UI = (function () {
 
 
 
-        canvas.addEventListener('click', function (e) {
-            overlay.classList.remove('overlay--visible');
-        });
     }
 
     function init() {
