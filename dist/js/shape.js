@@ -1,15 +1,7 @@
 
 /*
-
- Shape Shifter
- =============
- A canvas experiment by Kenneth Cachia
- http://www.kennethcachia.com
-
- Updated code
  ------------
  https://github.com/kennethcachia/Shape-Shifter
-
  */
 
 
@@ -24,7 +16,7 @@ var S = {
         if (i !== -1) {
             S.UI.simulate(decodeURI(action).substring(i + 3));
         } else {
-            S.UI.simulate('Hello|Bai|Qiang|Start|#rectangle|#countdown 3||');
+            S.UI.simulate('Hello|BaiQiang|Start|#rectangle|#countdown 3||');
         }
 
         S.Drawing.loop(function () {
@@ -553,7 +545,7 @@ S.Shape = (function () {
                 }
             }
         },
-
+        //复杂的计算
         switchShape: function (n, fast) {
             var size,
                 a = S.Drawing.getArea();
