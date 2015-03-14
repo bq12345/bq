@@ -1,5 +1,8 @@
 (function($) {
 
+    /*
+    * By BaiQiang
+    */
 	var _options = new Array();
 	jQuery.fn.MyFloatingBg = function(options) {
 		//extend options

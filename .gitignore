@@ -1,0 +1,9 @@
+node_modules/
+*.log
+*.apk
+.DS_Store
+.tmp
+.project
+bak
+.idea
+*.map
