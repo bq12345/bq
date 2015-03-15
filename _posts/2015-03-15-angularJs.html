@@ -1,0 +1,431 @@
+---
+layout: default
+title: AngularJs&jQuery
+---
+
+<h2>摘自StackOverflow</h2>
+
+<h1 style="margin-top: 0px; margin-bottom: 1em; padding: 0px; border: 0px; font-size: 21px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold !important; background-color: rgb(255, 255, 255);">
+    1. Don't design your page, and then change it with&nbsp;<a href="http://en.wikipedia.org/wiki/Document_Object_Model"
+                                                               style="margin: 0px; padding: 0px; border: 0px; cursor: pointer; color: rgb(12, 101, 165);">DOM</a>manipulations
+</h1>
+<p style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    In jQuery, you design a page, and then you make it dynamic. This is because jQuery was designed for augmentation and
+    has grown incredibly from that simple premise.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    But in AngularJS, you must start from the ground up with your architecture in mind. Instead of starting by thinking
+    "I have this piece of the DOM and I want to make it do X", you have to start with what you want to accomplish, then
+    go about designing your application, and then finally go about designing your view.</p><h1
+        style="margin-top: 0px; margin-bottom: 1em; padding: 0px; border: 0px; font-size: 21px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold !important; background-color: rgb(255, 255, 255);">
+    2. Don't augment jQuery with AngularJS</h1><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Similarly, don't start with the idea that jQuery does X, Y, and Z, so I'll just add AngularJS on top of that for
+    models and controllers. This is&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">really</em>&nbsp;tempting
+    when you're just starting out, which is why I always recommend that new AngularJS developers don't use jQuery at
+    all, at least until they get used to doing things the "Angular Way".</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    I've seen many developers here and on the mailing list create these elaborate solutions with jQuery plugins of 150
+    or 200 lines of code that they then glue into AngularJS with a collection of callbacks and<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">$apply</code>s
+    that are confusing and convoluted; but they eventually get it working! The problem is that in<strong
+        style="margin: 0px; padding: 0px; border: 0px;">most</strong>&nbsp;cases that jQuery plugin could be rewritten
+    in AngularJS in a fraction of the code, where suddenly everything becomes comprehensible and straightforward.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    The bottom line is this: when solutioning, first "think in AngularJS"; if you can't think of a solution, ask the
+    community; if after all of that there is no easy solution,&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">then</em>&nbsp;feel
+    free to reach for the jQuery. But don't let jQuery become a crutch or you'll never master AngularJS.</p><h1
+        style="margin-top: 0px; margin-bottom: 1em; padding: 0px; border: 0px; font-size: 21px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold !important; background-color: rgb(255, 255, 255);">
+    3. Always think in terms of architecture</h1><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    First know that&nbsp;<a href="http://en.wikipedia.org/wiki/Single-page_application"
+                            style="margin: 0px; padding: 0px; border: 0px; cursor: pointer; color: rgb(12, 101, 165);">single-page
+    applications</a>&nbsp;are&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">applications</em>.
+    They're&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">not</em>&nbsp;webpages. So we need to think like a
+    server-side developer&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">in addition</em>&nbsp;to thinking
+    like a client-side developer. We have to think about how to divide our application into individual, extensible,
+    testable components.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    So then&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">how</em>&nbsp;do you do that? How do you "think in
+    AngularJS"? Here are some general principles, contrasted with jQuery.</p><h2
+        style="margin: 0px 0px 1em; padding: 0px; border: 0px; font-size: 19px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255);">
+    The view is the "official record"</h2><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    In jQuery, we programmatically change the view. We could have a dropdown menu defined as a&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ul</code>like
+    so:</p>
+<pre class="lang-html prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">
+    &lt;ul class="main-menu"&gt;
+    &lt;li class="active"&gt;
+    &lt;a href="#/home"&gt;Home&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+    &lt;a href="#/menu1"&gt;Menu 1&lt;/a&gt;
+    &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#/sm1"&gt;Submenu 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#/sm2"&gt;Submenu 2&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#/sm3"&gt;Submenu 3&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+    &lt;a href="#/home"&gt;Menu 2&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;/ul&gt;
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    In jQuery, in our application logic, we would activate it with something like:</p>
+<pre class="lang-js prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">$('.main-menu').dropdownMenu();
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    When we just look at the view, it's not immediately obvious that there is any functionality here. For small
+    applications, that's fine. But for non-trivial applications, things quickly get confusing and hard to maintain.</p>
+<p style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    In AngularJS, though, the view is the official record of view-based functionality. Our&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ul</code>&nbsp;declaration
+    would look like this instead:</p>
+<pre class="lang-html prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">
+    &lt;ul class="main-menu" dropdown-menu&gt;
+    ...
+    &lt;/ul&gt;
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    These two do the same thing, but in the AngularJS version anyone looking at the template knows what's supposed to
+    happen. Whenever a new member of the development team comes on board, she can look at this and then&nbsp;<em
+        style="margin: 0px; padding: 0px; border: 0px;">know</em>&nbsp;that there is a directive called&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">dropdownMenu</code>&nbsp;operating
+    on it; she doesn't need to intuit the right answer or sift through any code. The view told us what was supposed to
+    happen. Much cleaner.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Developers new to AngularJS often ask a question like: how do I find all links of a specific kind and add a
+    directive onto them. The developer is always flabbergasted when we reply: you don't. But the reason you don't do
+    that is that this is like half-jQuery, half-AngularJS, and no good. The problem here is that the developer is trying
+    to "do jQuery" in the context of AngularJS. That's never going to work well. The view&nbsp;<em
+        style="margin: 0px; padding: 0px; border: 0px;">is</em>&nbsp;the official record. Outside of a directive (more
+    on this below), you never, ever,&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">never</em>change the DOM.
+    And directives are applied&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">in the view</em>, so intent is
+    clear.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Remember: don't design, and then mark up. You must architect, and then design.</p><h2
+        style="margin: 0px 0px 1em; padding: 0px; border: 0px; font-size: 19px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255);">
+    Data binding</h2><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    This is by far one of the most awesome features of AngularJS and cuts out a lot of the need to do the kinds of DOM
+    manipulations I mentioned in the previous section. AngularJS will automatically update your view so you don't have
+    to! In jQuery, we respond to events and then update content. Something like:</p>
+<pre class="lang-js prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">$.ajax({
+    url: '/myEndpoint.json',
+    success: function ( data, status ) {
+    $('ul#log').append('&lt;li&gt;Data Received!&lt;/li&gt;');
+    }
+    });
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    For a view that looks like this:</p>
+<pre class="lang-html prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">
+    &lt;ul class="messages" id="log"&gt;
+    &lt;/ul&gt;
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Apart from mixing concerns, we also have the same problems of signifying intent that I mentioned before. But more
+    importantly, we had to manually reference and update a DOM node. And if we want to delete a log entry, we have to
+    code against the DOM for that too. How do we test the logic apart from the DOM? And what if we want to change the
+    presentation?</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    This a little messy and a trifle frail. But in AngularJS, we can do this:</p>
+<pre class="lang-js prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">$http(
+    '/myEndpoint.json' ).then( function ( response ) {
+    $scope.log.push( { msg: 'Data Received!' } );
+    });
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    And our view can look like this:</p>
+<pre class="lang-html prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">
+    &lt;ul class="messages"&gt;
+    &lt;li ng-repeat="entry in log"&gt;{{ entry.msg }}&lt;/li&gt;
+    &lt;/ul&gt;
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    But for that matter, our view could look like this:</p>
+<pre class="lang-html prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">
+    &lt;div class="messages"&gt;
+    &lt;div class="alert" ng-repeat="entry in log"&gt;
+    {{ entry.msg }}
+    &lt;/div&gt;
+    &lt;/div&gt;
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    And now instead of using an unordered list, we're using Bootstrap alert boxes. And we never had to change the
+    controller code! But more importantly, no matter&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">where</em>&nbsp;or&nbsp;<em
+        style="margin: 0px; padding: 0px; border: 0px;">how</em>&nbsp;the log gets updated, the view will change too.
+    Automatically. Neat!</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Though I didn't show it here, the data binding is two-way. So those log messages could also be editable in the view
+    just by doing this:&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">
+    &lt;input ng-model="entry.msg" /&gt;</code>. And there was much rejoicing.</p><h2
+        style="margin: 0px 0px 1em; padding: 0px; border: 0px; font-size: 19px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255);">
+    Distinct model layer</h2><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    In jQuery, the DOM is kind of like the model. But in AngularJS, we have a separate model layer that we can manage in
+    any way we want, completely independently from the view. This helps for the above data binding, maintains&nbsp;<a
+        href="http://en.wikipedia.org/wiki/Separation_of_concerns"
+        style="margin: 0px; padding: 0px; border: 0px; cursor: pointer; color: rgb(12, 101, 165);">separation of
+    concerns</a>, and introduces far greater testability. Other answers mentioned this point, so I'll just leave it at
+    that.</p><h2
+        style="margin: 0px 0px 1em; padding: 0px; border: 0px; font-size: 19px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255);">
+    Separation of concerns</h2><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    And all of the above tie into this over-arching theme: keep your concerns separate. Your view acts as the official
+    record of what is supposed to happen (for the most part); your model represents your data; you have a service layer
+    to perform reusable tasks; you do DOM manipulation and augment your view with directives; and you glue it all
+    together with controllers. This was also mentioned in other answers, and the only thing I would add pertains to
+    testability, which I discuss in another section below.</p><h2
+        style="margin: 0px 0px 1em; padding: 0px; border: 0px; font-size: 19px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255);">
+    Dependency injection</h2><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    To help us out with separation of concerns is&nbsp;<a href="http://en.wikipedia.org/wiki/Dependency_injection"
+                                                          style="margin: 0px; padding: 0px; border: 0px; cursor: pointer; color: rgb(12, 101, 165);">dependency
+    injection</a>&nbsp;(DI). If you come from a server-side language (from&nbsp;<a
+        href="http://en.wikipedia.org/wiki/Java_%28programming_language%29"
+        style="margin: 0px; padding: 0px; border: 0px; cursor: pointer; color: rgb(12, 101, 165);">Java</a>&nbsp;to&nbsp;<a
+        href="http://en.wikipedia.org/wiki/PHP"
+        style="margin: 0px; padding: 0px; border: 0px; cursor: pointer; color: rgb(12, 101, 165);">PHP</a>) you're
+    probably familiar with this concept already, but if you're a client-side guy coming from jQuery, this concept can
+    seem anything from silly to superfluous to hipster. But it's not. :-)</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    From a broad perspective, DI means that you can declare components very freely and then from any other component,
+    just ask for an instance of it and it will be granted. You don't have to know about loading order, or file
+    locations, or anything like that. The power may not immediately be visible, but I'll provide just one (common)
+    example: testing.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Let's say in our application, we require a service that implements server-side storage through a&nbsp;<a
+        href="http://en.wikipedia.org/wiki/Representational_State_Transfer"
+        style="margin: 0px; padding: 0px; border: 0px; cursor: pointer; color: rgb(12, 101, 165);">REST</a>API and,
+    depending on application state, local storage as well. When running tests on our controllers, we don't want to have
+    to communicate with the server - we're testing the&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">controller</em>,
+    after all. We can just add a mock service of the same name as our original component, and the injector will ensure
+    that our controller gets the fake one automatically - our controller doesn't and needn't know the difference.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Speaking of testing...</p><h1
+        style="margin-top: 0px; margin-bottom: 1em; padding: 0px; border: 0px; font-size: 21px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold !important; background-color: rgb(255, 255, 255);">
+    4. Test-driven development -&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">always</em></h1><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    This is really part of section 3 on architecture, but it's so important that I'm putting it as its own top-level
+    section.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Out of all of the many jQuery plugins you've seen, used, or written, how many of them had an accompanying test
+    suite? Not very many because jQuery isn't very amenable to that. But AngularJS is.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    In jQuery, the only way to test is often to create the component independently with a sample/demo page against which
+    our tests can perform DOM manipulation. So then we have to develop a component separately and&nbsp;<em
+        style="margin: 0px; padding: 0px; border: 0px;">then</em>&nbsp;integrate it into our application. How
+    inconvenient! So much of the time, when developing with jQuery, we opt for iterative instead of test-driven
+    development. And who could blame us?</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    But because we have separation of concerns, we can do test-driven development iteratively in AngularJS! For example,
+    let's say we want a super-simple directive to indicate in our menu what our current route is. We can declare what we
+    want in the view of our application:</p>
+<pre class="lang-html prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">
+    &lt;a href="/hello" when-active&gt;Hello&lt;/a&gt;
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Okay, now we can write a test for the non-existent&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">when-active</code>&nbsp;directive:
+</p>
+<pre class="lang-js prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">it(
+    'should add "active" when the route changes', inject(function() {
+    var elm = $compile( '&lt;a href="/hello" when-active&gt;Hello&lt;/a&gt;' )( $scope );
+
+    $location.path('/not-matching');
+    expect( elm.hasClass('active') ).toBeFalsey();
+
+    $location.path( '/hello' );
+    expect( elm.hasClass('active') ).toBeTruthy();
+    }));
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    And when we run our test, we can confirm that it fails. Only now should we create our directive:</p>
+<pre class="lang-js prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">.directive(
+    'whenActive', function ( $location ) {
+    return {
+    scope: true,
+    link: function ( scope, element, attrs ) {
+    scope.$on( '$routeChangeSuccess', function () {
+    if ( $location.path() == element.attr( 'href' ) ) {
+    element.addClass( 'active' );
+    }
+    else {
+    element.removeClass( 'active' );
+    }
+    });
+    }
+    };
+    });
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Our test now passes&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">and</em>&nbsp;our menu performs as
+    requested. Our development is&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">both</em>&nbsp;iterative&nbsp;<em
+        style="margin: 0px; padding: 0px; border: 0px;">and</em>test-driven. Wicked-cool.</p><h1
+        style="margin-top: 0px; margin-bottom: 1em; padding: 0px; border: 0px; font-size: 21px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold !important; background-color: rgb(255, 255, 255);">
+    5. Conceptually, directives are&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">not</em>&nbsp;packaged
+    jQuery</h1><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    You'll often hear "only do DOM manipulation in a directive".&nbsp;<strong
+        style="margin: 0px; padding: 0px; border: 0px;">This is a necessity.</strong>&nbsp;Treat it with due deference!
+</p>
+<p style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    But let's dive a little deeper...</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Some directives just decorate what's already in the view (think&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ngClass</code>)
+    and therefore sometimes do DOM manipulation straight away and then are basically done. But if a directive is like a
+    "widget" and has a template, it should&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">also</em>&nbsp;respect
+    separation of concerns. That is, the template&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">too</em>&nbsp;should
+    remain largely independent from its implementation in the link and controller functions.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    AngularJS comes with an entire set of tools to make this very easy; with&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ngClass</code>&nbsp;we
+    can dynamically update the class;&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ngBind</code>&nbsp;allows
+    two-way data binding;&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ngShow</code>&nbsp;and&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ngHide</code>programmatically
+    show or hide an element; and many more - including the ones we write ourselves. In other words, we can do all kinds
+    of awesomeness&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">without</em>&nbsp;DOM manipulation. The less
+    DOM manipulation, the easier directives are to test, the easier they are to style, the easier they are to change in
+    the future, and the more re-usable and distributable they are.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    I see lots of developers new to AngularJS using directives as the place to throw a bunch of jQuery. In other words,
+    they think "since I can't do DOM manipulation in the controller, I'll take that code put it in a directive". While
+    that certainly is much better, it's often&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">still wrong</em>.
+</p>
+<p style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Think of the logger we programmed in section 3. Even if we put that in a directive, we&nbsp;<em
+        style="margin: 0px; padding: 0px; border: 0px;">still</em>&nbsp;want to do it the "Angular Way". It&nbsp;<em
+        style="margin: 0px; padding: 0px; border: 0px;">still</em>&nbsp;doesn't take any DOM manipulation! There are
+    lots of times when DOM manipulation is necessary, but it's a&nbsp;<em
+        style="margin: 0px; padding: 0px; border: 0px;">lot</em>&nbsp;rarer than you think! Before doing DOM
+    manipulation<em style="margin: 0px; padding: 0px; border: 0px;">anywhere</em>&nbsp;in your application, ask yourself
+    if you really need to. There might be a better way.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Here's a quick example that shows the pattern I see most frequently. We want a toggleable button. (Note: this
+    example is a little contrived and a skosh verbose to represent more complicated cases that are solved in exactly the
+    same way.)</p>
+<pre class="lang-js prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">.directive(
+    'myDirective', function () {
+    return {
+    template: '&lt;a class="btn"&gt;Toggle me!&lt;/a&gt;',
+    link: function ( scope, element, attrs ) {
+    var on = false;
+
+    $(element).click( function () {
+    on = !on;
+    $(element).toggleClass('active', on);
+    });
+    }
+    };
+    });
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    There are a few things wrong with this:</p>
+<ol style="margin-right: 0px; margin-bottom: 1em; margin-left: 30px; padding: 0px; border: 0px; font-size: 15px; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    <li style="margin: 0px 0px 0.5em; padding: 0px; border: 0px; word-wrap: break-word;">First, jQuery was never
+        necessary. There's nothing we did here that needed jQuery at all!
+    </li>
+    <li style="margin: 0px 0px 0.5em; padding: 0px; border: 0px; word-wrap: break-word;">Second, even if we already have
+        jQuery on our page, there's no reason to use it here; we can simply use&nbsp;<code
+                style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">angular.element</code>&nbsp;and
+        our component will still work when dropped into a project that doesn't have jQuery.
+    </li>
+    <li style="margin: 0px 0px 0.5em; padding: 0px; border: 0px; word-wrap: break-word;">Third, even assuming jQuery&nbsp;<em
+            style="margin: 0px; padding: 0px; border: 0px;">was</em>&nbsp;required for this directive to work, jqLite
+        (<code style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">angular.element</code>)
+        will&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">always</em>&nbsp;use jQuery if it was loaded! So
+        we needn't use the&nbsp;<code
+                style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">$</code>&nbsp;-
+        we can just use&nbsp;<code
+                style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">angular.element</code>.
+    </li>
+    <li style="margin: 0px 0px 0.5em; padding: 0px; border: 0px; word-wrap: break-word;">Fourth, closely related to the
+        third, is that jqLite elements needn't be wrapped in&nbsp;<code
+                style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">$</code>&nbsp;-
+        the&nbsp;<code
+                style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">element</code>that
+        is passed to the&nbsp;<code
+                style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">link</code>&nbsp;function
+        would&nbsp;<em style="margin: 0px; padding: 0px; border: 0px;">already be</em>&nbsp;a jQuery element!
+    </li>
+    <li style="margin: 0px 0px 0.5em; padding: 0px; border: 0px; word-wrap: break-word;">And fifth, which we've
+        mentioned in previous sections, why are we mixing template stuff into our logic?
+    </li>
+</ol>
+<p style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    This directive can be rewritten (even for very complicated cases!) much more simply like so:</p>
+<pre class="lang-js prettyprint-override"
+     style="margin-bottom: 1em; padding: 5px; border: 0px; overflow: auto; width: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); background-color: rgb(238, 238, 238);"><code
+        style="margin: 0px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: inherit; background-color: rgb(238, 238, 238);">.directive(
+    'myDirective', function () {
+    return {
+    scope: true,
+    template: '&lt;a class="btn" ng-class="{active: on}" ng-click="toggle()"&gt;Toggle me!&lt;/a&gt;',
+    link: function ( scope, element, attrs ) {
+    scope.on = false;
+
+    scope.toggle = function () {
+    scope.on = !scope.on;
+    };
+    }
+    };
+    });
+</code></pre><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Again, the template stuff is in the template, so you (or your users) can easily swap it out for one that meets any
+    style necessary, and the&nbsp;<strong style="margin: 0px; padding: 0px; border: 0px;">logic</strong>&nbsp;never had
+    to be touched. Reusability - boom!</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    And there are still all those other benefits, like testing - it's easy! No matter what's in the template, the
+    directive's internal API is never touched, so refactoring is easy. You can change the template as much as you want
+    without touching the directive. And no matter what you change, your tests still pass.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    w00t!</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    So if directives aren't just collections of jQuery-like functions, what are they? Directives are actually<strong
+        style="margin: 0px; padding: 0px; border: 0px;">extensions of HTML</strong>. If HTML doesn't do something you
+    need it to do, you write a directive to do it for you, and then use it just as if it was part of HTML.</p><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Put another way, if AngularJS doesn't do something out of the box, think how the team would accomplish it to fit
+    right in with&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ngClick</code>,&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">ngClass</code>,
+    et al.</p><h1
+        style="margin-top: 0px; margin-bottom: 1em; padding: 0px; border: 0px; font-size: 21px; line-height: 1.3; word-wrap: break-word; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold !important; background-color: rgb(255, 255, 255);">
+    Summary</h1><p
+        style="margin-bottom: 1em; padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 19.5px; background-color: rgb(255, 255, 255);">
+    Don't even use jQuery. Don't even include it. It will hold you back. And when you come to a problem that you think
+    you know how to solve in jQuery already, before you reach for the&nbsp;<code
+        style="margin: 0px; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);">$</code>,
+    try to think about how to do it within the confines the AngularJS. If you don't know, ask! 19 times out of 20, the
+    best way to do it doesn't need jQuery and to try to solve it with jQuery results in more work for you.</p>
