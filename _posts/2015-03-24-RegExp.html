@@ -1,0 +1,113 @@
+---
+layout: default
+title: 做题引起的思考
+---
+
+<link rel="stylesheet" type="text/css" href="/dist/css/github.css">
+
+<article class="markdown-body"><h1>
+<a id="user-content-做题的一次反思" class="anchor" href="#%E5%81%9A%E9%A2%98%E7%9A%84%E4%B8%80%E6%AC%A1%E5%8F%8D%E6%80%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>做题的一次反思</h1>
+
+<p>先看题目要求</p>
+
+<p>统计字符串有相同字母的字母出现的频率</p>
+
+<p>Such as</p>
+
+<pre><code>"abcde" -&gt; 0 # no characters repeats more than once
+"aabbcde" -&gt; 2 # 'a' and 'b'
+"aabbcdeB" -&gt; 2 # 'a' and 'b'
+"indivisibility" -&gt; 1 # 'i'
+"Indivisibilities" -&gt; 2 # 'i' and 's'
+</code></pre>
+
+<p>我对于这种问题一般都是喜欢处理Array的</p>
+
+<pre><code>function duplicateCount(text) {
+    if (!text) return 0;
+    text = text.toLowerCase();
+    var arr = text.split(''), rs = [], sum = 0;
+    for (var i = 0; i &lt; arr.length; i++) {
+        var item = arr[i];
+        if (rs[item] === undefined) {
+            rs[item] = 0;
+        } else {
+            rs[item]++;
+        }
+    }
+    for (var index in rs) {
+        if (rs[index] &gt; 0) sum++
+    }
+    return sum;
+}
+</code></pre>
+
+<p>比较简单的思路，转为Array之后，把重复的字母作为key， 然后遍历一次看哪个的value &gt; 0 然后就把总数++</p>
+
+<p>以上方法肯定可行</p>
+
+<hr>
+
+<p>但是，我看到了一个答案，</p>
+
+<pre><code>function duplicateCount(text){
+    return (text.toLowerCase().split('').sort().join('').match(/([^])\1+/g) || []).length;
+}
+</code></pre>
+
+<p>当时我就感觉被爆了</p>
+
+<p>那就看看这个正则是怎么个意思吧</p>
+
+<p>首先应该熟悉反相引用，就是<code>\1</code>这种写法，它的意思就是对于刚才匹配的正则，把匹配结果作为正则表达式的内容，再匹配之后余下的字符串。</p>
+
+<blockquote>
+<p><code>\1</code> 是等同于"第1个括号匹配的内容"，而不是"第一个括号的内容"</p>
+</blockquote>
+
+<p>举个例子：</p>
+
+<p>对于</p>
+
+<pre><code>var str = 'aiqiaang';
+
+var reg = /(a)\1/;
+
+console.log(str.match(reg));
+</code></pre>
+
+<blockquote>
+<p>Result: ["aa", "a", index: 4, input: "aiqiaang"]</p>
+</blockquote>
+
+<p>因为(a) 匹配的是a 然后因为<code>\1</code>所以正则就成了/aa/ 了</p>
+
+<p>同样，前面有几个子正则表达式我们就可以使用几个反向引用</p>
+
+<p>再举个例子</p>
+
+<pre><code>var str = 'abqiabbang';
+
+var reg = /(a)(b)\2\1/;
+
+console.log(str.match(reg));
+</code></pre>
+
+<blockquote>
+<p>Result: ["abba", "a", "b", index: 4, input: "abqiabbang"]</p>
+</blockquote>
+
+<p>因为(a)(b) 分别匹配 a b ，然后\2 代表第二个子表达式， 所以整体上的表达式就成了 /abba/ 再看匹配结果就合理了</p>
+
+<hr>
+
+<p>再来看下题目的正则是怎么个弄法</p>
+
+<p>首先是排序。把字符串按字母表排序 <code>text.toLowerCase().split('').sort().join('')</code></p>
+
+<p>然后 <code>/([^])/</code> 匹配的是 任意的字符，其实在这个题目用\w也行，<code>([\w])\1+</code> 就组成了重复的字符串的匹配</p>
+
+<p>最后再用 /g 全局匹配，match得到数组，length属性就是我们要的答案</p>
+
+<p>所以还是要多加思考，灵活应用知识来解决问题</p>
+</article>
