@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html manifest="./manifest.txt">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+<script>
+    window.applicationCache.addEventListener('updateready', function () {
+            alert('update');
+    });
+</script>
+</body>
+</html>
