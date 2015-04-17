@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QRCode</title>
+    <style>
+
+        body{
+            padding: 100px;
+            overflow: hidden;
+        }
+
+        .input {
+            color: #ec5a62;
+            box-sizing: border-box;
+            display: block;
+            outline: 0;
+            border: 0;
+            width: 100%;
+            font-size: 42px;
+            padding: 4px 0;
+        }
+
+        #output{
+            width: 256px;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+<body>
+
+<input type="text" class="input" id="input" placeholder="输入字符以转化成二维码"/>
+
+<div id="output"></div>
+
+<script src="dist/js/jquery.min.js"></script>
+<script src="dist/js/jquery.qrcode.min.js"></script>
+
+<script>
+    $input = $('#input');
+    $output = $('#output');
+    $input.on('keydown', function (e) {
+        if (e.keyCode === 13) {
+            var value = $.trim($('#input').val());
+            $(function () {
+                $output.html('').qrcode(value);
+            });
+        }
+    });
+</script>
+</body>
+</html>
