@@ -89,9 +89,10 @@
             font-size: 14px;
             box-shadow: 1px 1px 3px 2px #dfdfdf;
         }
-       /* Canvas部分的CSS*/
 
-        .canvas{
+        /* Canvas部分的CSS*/
+
+        .canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -186,7 +187,13 @@
 
                             <div class="T3D fold_pager"
                                  style="transform: rotateX(-180deg); -webkit-transform: rotateX(-180deg);">
-                                <a href="http://github.com/bq12345" target="_blank">Github</a>
+                                <a href="http://github.com/bq12345" target="_blank">Github.com</a>
+
+                                <div class="T3D fold_pager"
+                                     style="transform: rotateX(-180deg); -webkit-transform: rotateX(-180deg);">
+                                    <a href="{{ site.baseurl }}snow.html" target="_blank">Hometown</a>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -321,7 +328,7 @@
         });
     });
 </script>
-            {{ content }}
+{{ content }}
 </body>
 
 </html>
