@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
     <style>
 
-        body{
+        body {
             padding: 50px;
             overflow: hidden;
         }
@@ -25,7 +25,7 @@
             border-bottom: 1px dashed #666;
         }
 
-        #output{
+        #output {
             width: 256px;
             margin: 100px auto;
         }
@@ -43,9 +43,11 @@
 <script>
     $input = $('#input');
     $output = $('#output');
+    $input.val(localStorage.url || '');
     $input.on('keydown', function (e) {
         if (e.keyCode === 13) {
             var value = $.trim($('#input').val());
+            localStorage.url = value;
             $(function () {
                 $output.html('').qrcode(value);
             });
