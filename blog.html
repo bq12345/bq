@@ -8,7 +8,7 @@ layout: default
     and (min-device-width: 320px)
     and (max-device-width: 480px) {
         body {
-            font-size: 12px!important;
+            font-size: 12px !important;
         }
 
         .jumbotron {
@@ -43,3 +43,16 @@ layout: default
         </div>
     </div>
 </div>
+
+<script>
+    (function ($) {
+        var collapse = $('.collapse');
+        $('.navbar-header').on('click', function () {
+            if (collapse.css('display') === 'none') {
+                collapse.css('display', 'block');
+            } else {
+                collapse.css('display', 'none');
+            }
+        });
+    }).call($);
+</script>
