@@ -858,7 +858,7 @@ body .markdown-body {
 @media only screen
 and (min-device-width: 320px)
 and (max-device-width: 480px) {
-    body, p, {
+    body, p, .jumbotron p {
         font-size: 12px !important;
     }
 
