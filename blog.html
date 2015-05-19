@@ -27,8 +27,7 @@ layout: default
 </div>
 
 <script>
-    (function ($) {
-        console.log($);
+    $(function(){
         var collapse = $('.navbar-collapse');
         $('.navbar-header').on('click', function () {
             if (collapse.css('display') === 'none') {
@@ -37,5 +36,5 @@ layout: default
                 collapse.css('display', 'none');
             }
         });
-    }).call(window.jQuery);
+    });
 </script>
