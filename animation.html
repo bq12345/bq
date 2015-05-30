@@ -1,0 +1,587 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Web动画简介</title>
+
+    <meta name="description" content="Web animations">
+    <meta name="author" content="BaiQiang">
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="dist/animation/css/reveal.css">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="dist/animation/css/zenburn.css">
+
+    <script src="dist/animation/js/web-animations.js"></script>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section>
+            <h1>Web动画简介</h1>
+
+            <p>
+                <small>By <a target="_blank" href="http://bq12345.github.io/">白强</a> / <a target="_blank"
+                                                                                          href="http://weibo.com/u/2321705243">@强子</a>
+                </small>
+            </p>
+        </section>
+
+        <section>
+            <h2>制作动画的几种技术</h2>
+            <ul>
+                <li>CSS</li>
+                <li>SVG</li>
+                <li>JavaScript(requestAnimationFrame, Canvas, WebGL, etc.)</li>
+                <li>Web Animation</li>
+            </ul>
+        </section>
+
+        <!-- Example of nested vertical slides -->
+        <section>
+            <section>
+                <h2>CSS动画</h2>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <style>
+                    #squareContainer {
+                        position: relative;
+                    }
+
+                    #redSquare {
+                        position: absolute;
+                        left: 200px;
+                        -webkit-transition: -webkit-transform 2s ease-in-out;
+                        transition: transform 2s ease-in-out;
+                        width: 200px;
+                        height: 200px;
+                        background-color: #f44a3f;
+                        display: inline-block;
+                        margin-right: 30px;
+                    }
+
+                    #redSquare:hover {
+                        -webkit-transform: rotate(360deg);
+                        transform: rotate(360deg);
+                    }
+
+                    @-webkit-keyframes spin-animation {
+                        to {
+                            -webkit-transform: rotate(360deg);
+                        }
+                    }
+
+                    @keyframes spin-animation {
+                        to {
+                            transform: rotate(360deg);
+                        }
+                    }
+
+                    #yellowSquare {
+                        position: absolute;
+                        left: 600px;
+                        width: 200px;
+                        height: 200px;
+                        background-color: #ffd14d;
+                    }
+
+                    #yellowSquare:hover {
+                        -webkit-animation: spin-animation 2s ease-in-out;
+                        animation: spin-animation 2s ease-in-out;
+                    }
+                </style>
+                <div id="squareContainer">
+                    <div id="redSquare"></div>
+                    <div id="yellowSquare"></div>
+                </div>
+            </section>
+            <section>
+                <h2></h2>
+                        <pre>
+<code>
+    .red.square { transition: transform 2s ease-in-out; }
+    .red.square:hover { transform: rotate(360deg); }
+</code></pre>
+        <pre><code data-trim contenteditable>
+            .yellow.square:hover { animation: spin 2s ease-in-out; }
+            @keyframes spin {
+            100% { transform: rotate(360deg); }
+            }
+        </code></pre>
+            </section>
+            <section>
+                <h2>优缺点</h2>
+                <ul>
+                    <li>简单有效快捷</li>
+                    <li>不占用浏览器线程</li>
+                    <li>浏览器加速</li>
+                    <li style="color: red">不好动态修改动画内容</li>
+                    <li style="color: red">兼容性问题</li>
+                    <li style="color: red">定义动画过程的@keyframes不支持递归定义，如果有多种类似的动画过程，需要调节多个参数来生成的话，将会有很大的冗余</li>
+                    <li style="color: red">部分动画功能无法实现（如滚动动画，视差滚动等）</li>
+                </ul>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>SVG动画</h2>
+<pre><code>
+    &lt;animatetransform
+    attributeName="transform"
+    attributeType="xml"
+    type="rotate"
+    from="0deg"
+    to="360deg"
+    dur="2s"
+    repeatCount="indefinite"
+    &gt;&lt;/animatetransform&gt;</code></pre>
+                <svg id="svgAnimation" ns="http://www.w3.org/2000/svg" version="1.1" width="200" height="200"
+                     style="margin-top: -20px; display: inline-block">
+                    <g transform="translate(100,100)">
+                        <g>
+                            <rect width="100" height="100" fill="green" transform="translate(-50,-50)"></rect>
+                            <!-- Add ease-in-out and infinite iterations to this animation and the code -->
+                            <animatetransform
+                                    attributeName="transform"
+                                    attributeType="xml"
+                                    type="rotate"
+                                    from="0"
+                                    to="360"
+                                    dur="2s"
+                                    repeatCount="indefinite"
+                                    ></animatetransform>
+                        </g>
+                    </g>
+                </svg>
+                <button style="margin-left: 50px; margin-top: -180px; width: 60px;" id="svgAnimationControl">Pause
+                </button>
+                <script>
+                    var svgPaused = false;
+                    svgAnimationControl.addEventListener('click', function () {
+                        if (svgPaused) {
+                            svgAnimation.unpauseAnimations();
+                            svgAnimationControl.innerHTML = 'Pause';
+                        } else {
+                            svgAnimation.pauseAnimations();
+                            svgAnimationControl.innerHTML = 'Play';
+                        }
+                        svgPaused = !svgPaused;
+                    });
+                </script>
+            </section>
+            <section>
+                <h2>SVG的优缺点</h2>
+                <ul>
+                    <li>矢量图形，比Canvas好的地方就是不受像素影响</li>
+                    <li>其DOM结构可以被其特定语法或者Javascript控制</li>
+                    <li>声明式的XML的结构更加严谨</li>
+                    <li style="color: red">DOM操作，比正常的图形慢</li>
+                    <li style="color: red">也不好直接修改动画内容</li>
+                    <li style="color: red">用的很少，现在主要用来画报表 <a target="_blank"
+                                                             href="http://www.highcharts.com/">HighChart</a></li>
+                </ul>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>JavaScript动画</h2>
+
+            <pre><code>
+                function frame(time) {
+                document.querySelector('.blue.square').style.transform =
+                'rotate(' + (Math.sin(time / 1000) * 360) + 'deg)';
+                requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);</code></pre>
+
+                <style>
+                    #jsAnimation {
+                        margin-left: 40px;
+                        margin-top: 60px;
+                        width: 100px;
+                        height: 100px;
+                        background-color: #4387fd;
+                    }
+                </style>
+                <div id="jsAnimation"></div>
+                <p>不支持的浏览器可以Polyfill用SetTimeout实现</p>
+                <script>
+                    function frame(time) {
+                        jsAnimation.style.webkitTransform = 'rotate(' + (Math.sin(time / 1000) * 360) + 'deg)';
+                        jsAnimation.style.transform = 'rotate(' + (Math.sin(time / 1000) * 360) + 'deg)';
+                        requestAnimationFrame(frame);
+                    }
+                    requestAnimationFrame(frame);
+                </script>
+
+            </section>
+            <section>
+                <h2>JavaScript动画优缺点
+                </h2>
+
+                <ul>
+                    <li>JavaScript的动画控制能力很强，可以单帧的控制、变换</li>
+                    <li>JavaScript动画基本都可以兼容到IE6</li>
+                    <li style="color: red">阻塞主线程</li>
+                    <li style="color: red">代码控制，不好直观调整</li>
+                </ul>
+            </section>
+        </section>
+
+        <section>
+            <h2>当下的问题</h2>
+            <ul style="color: red">
+                <li>不同的API使用起来完全不同</li>
+                <li>没有一种统一的表达方式，通常是想实现某个效果的时候才考虑用那种技术</li>
+                <li>需要Web开发人员掌握和学习多种技术</li>
+                <li>不同的动画技术之间不好相互合作</li>
+            </ul>
+            <p>
+            </p>
+        </section>
+
+        <section>
+            <section id="ways">
+                <h2>一种新的动画模型</h2>
+
+                <h3 class="fragment" style="color: green">Web Animations</h3>
+
+
+            </section>
+
+            <section>
+                <h2>Contributors</h2>
+
+                <ul>
+                    <li>Mozilla</li>
+                    <li>Google</li>
+                    <li>Adobe</li>
+                    <li>W3C</li>
+                </ul>
+
+            </section>
+        </section>
+
+        <section id="transitions">
+            <h2>优点</h2>
+            <ul>
+                <li>简单易用</li>
+                <li>允许不同的技术最终表现形式相近</li>
+                <li>提供了新的JavaScript API</li>
+                <li>独立线程，不依赖主线程</li>
+                <li>使得HTML的表现能力更进一步加强</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>
+                简单的示例
+            </h2>
+            <pre> <code>
+                element.animate({transform: 'rotate(360deg)'}, 2);
+            </code></pre>
+            <img src="dist/animation/img/chrome-logo-128.png" id="firstExample">
+            <script>
+                firstExample.addEventListener('click', function () {
+                    firstExample.animate(
+                            [{transform: 'rotate(0deg)'}, {transform: 'rotate(360deg)'}],
+                            {duration: 2});
+                });
+            </script>
+
+        </section>
+
+        <section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+            <h2>稍微复杂的示例</h2>
+
+           <pre><code>
+               element.animate(
+               {transform: 'rotate(360deg)'},
+               {
+               direction: 'alternate',
+               duration: 1,
+               iterations: 4
+               });
+           </code></pre>
+            <img src="dist/animation/img/chrome-logo-128.png" id="complexExample">
+            <script>
+                complexExample.addEventListener('click', function () {
+                    complexExample.animate(
+                            [{transform: 'rotate(0deg)'}, {transform: 'rotate(360deg)'}],
+                            {direction: 'alternate', duration: 1, iterations: 4});
+                });
+            </script>
+
+        </section>
+
+        <section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+            <h2>更复杂的例子</h2>
+<pre><code>
+    element.animate(
+    {transform: 'rotate(360deg)'},
+    {
+    direction: 'alternate',
+    duration: 1,
+    iterations: Infinity,
+    easing: 'ease-in-out',
+    playbackRate: 2
+    });
+</code></pre>
+            <img src="dist/animation/img/chrome-logo-128.png" id="moreComplexExample">
+            <script>
+                moreComplexExample.addEventListener('click', function () {
+                    moreComplexExample.animate(
+                            [{transform: 'rotate(0deg)'}, {transform: 'rotate(360deg)'}],
+                            {
+                                direction: 'alternate',
+                                duration: 1,
+                                iterations: Infinity,
+                                easing: 'ease-in-out',
+                                playbackRate: 2
+                            });
+                });
+            </script>
+        </section>
+
+        <section data-transition="slide" data-background="#eee" data-background-transition="zoom">
+            <h2>构造函数</h2>
+<pre><code>
+    document.timeline.play(
+    new Animation(
+    element,
+    new KeyframeAnimationEffect([{transform: 'rotate(360deg)'}]),
+    {duration: 2}));
+</code></pre>
+            <img src="dist/animation/img/chrome-logo-128.png" id="noSugar">
+            <script>
+                noSugar.addEventListener('click', function () {
+                    document.timeline.play(
+                            new Animation(
+                                    noSugar,
+                                    [{transform: 'rotate(0deg)'}, {transform: 'rotate(360deg)'}],
+                                    {duration: 2}));
+                });
+            </script>
+        </section>
+
+
+        <section>
+            <h2>并行动画</h2>
+            <pre> <code>
+                document.timeline.play(new ParGroup([
+                new Animation(parItem1, [{width: '0px'}, {width: '600px'}], 1),
+                new Animation(parItem2, [{width: '0px'}, {width: '800px'}], 1),
+                new Animation(parItem3, [{width: '0px'}, {width: '200px'}], 1),
+                ]));
+            </code></pre>
+            <style>
+                #parGroupContainer {
+                    background-color: lightgrey;
+                    border: solid black;
+                    padding: 10px;
+                }
+
+                .reveal .par-timing-box {
+                    width: 0px;
+                    height: 20px;
+                    background: #ffd14d;
+                    border: solid black;
+                    margin: 10px;
+                }
+            </style>
+            <div id="parGroupContainer">
+                <div id="parItem1" class="par-timing-box"></div>
+                <div id="parItem2" class="par-timing-box"></div>
+                <div id="parItem3" class="par-timing-box"></div>
+            </div>
+            <script>
+                parGroupContainer.addEventListener('click', function () {
+                    document.timeline.play(new ParGroup([
+                        new Animation(parItem1, [{width: '0px'}, {width: '600px'}], 1),
+                        new Animation(parItem2, [{width: '0px'}, {width: '420px'}], 1),
+                        new Animation(parItem3, [{width: '0px'}, {width: '200px'}], 1),
+                    ]));
+                });
+            </script>
+
+        </section>
+
+        <section>
+            <h2>线性动画</h2>
+<pre> <code>
+    document.timeline.play(new SeqGroup([
+    new Animation(seqItem1, [{width: '0px'}, {width: '300px'}], 1),
+    new Animation(seqItem2, [{width: '0px'}, {width: '400px'}], 1),
+    new Animation(seqItem3, [{width: '0px'}, {width: '100px'}], 1),
+    ]));
+</code></pre>
+            <style>
+                #seqGroupContainer {
+                    background-color: lightgrey;
+                    border: solid black;
+                    padding: 20px;
+                    padding-bottom: 10px;
+                }
+
+                .reveal .seq-timing-box {
+                    width: 0px;
+                    height: 20px;
+                    background: #0da861;
+                    border: solid black;
+                    margin-bottom: 10px;
+                }
+
+                #seqItem2 {
+                    margin-left: 305px;
+                }
+
+                #seqItem3 {
+                    margin-left: 710px;
+                }
+            </style>
+            <div id="seqGroupContainer">
+                <div id="seqItem1" class="seq-timing-box"></div>
+                <div id="seqItem2" class="seq-timing-box"></div>
+                <div id="seqItem3" class="seq-timing-box"></div>
+            </div>
+            <script>
+                var seqPlayer;
+                seqGroupContainer.addEventListener('click', function () {
+                    if (seqPlayer) {
+                        seqPlayer.source = null;
+                    }
+                    seqPlayer = document.timeline.play(new SeqGroup([
+                        new Animation(seqItem1, [{width: '0px'}, {width: '300px'}], 1),
+                        new Animation(seqItem2, [{width: '0px'}, {width: '400px'}], 1),
+                        new Animation(seqItem3, [{width: '0px'}, {width: '100px'}], 1),
+                    ]));
+                });
+            </script>
+        </section>
+
+        <section>
+            <h2>路径动画</h2>
+
+            <img id="pathImage" src="dist/animation/img/chrome-logo-128.png">
+            <script>
+
+                var svgPathData = 'M 100 200' +
+                        'C 200 100 300   0 400 100' +
+                        'C -200 200 100 400 100 200' +
+                        'C -800 100 200 100 200 100';
+                var pathAnimation = new Animation(
+                        pathImage,
+                        new PathAnimationEffect(svgPathData, 'auto-rotate'),
+                        {
+                            duration: 1,
+                            direction: 'alternate',
+                            easing: 'ease-in-out',
+                            iterations: Infinity
+                        });
+                document.timeline.play(pathAnimation);
+            </script>
+
+        </section>
+
+
+        <section style="text-align: left;">
+            <h2>当前实施情况</h2>
+
+            <p>
+                - <a href="http://www.w3.org/TR/web-animations">W3C Web Animations 1.0</a> <br>
+            </p>
+
+            <h3>Chrome: </h3>
+
+            <h3>
+                Firefox & Safari:
+            </h3>
+
+            <p>Started implementation</p>
+
+            <h3>
+                IE:
+            </h3>
+
+            <p>
+                No public signals
+            </p>
+        </section>
+
+        <section>
+            <h3>Polyfill</h3>
+            <ul>
+                <li> A JS implementation of the API</li>
+                <li> Allows developers to use the technology on browsers that don't yet support it</li>
+                <li>Available on Github: <a href="https://github.com/web-animations/web-animations-js" target="_blank">github.com/web-animations/web-animations-js</a>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Thank you!</h1>
+
+            <p style="color:#21E4B7">白强 <span style="color: #ffffff;font-size: small">Powered by <a target="_blank"
+                                                                                                    href="http://lab.hakim.se/reveal-js/#/">reveal.js</a></span>
+            </p>
+        </section>
+    </div>
+
+</div>
+
+<script src="dist/animation/js/reveal.js"></script>
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'dist/animation/plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'dist/animation/plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'dist/animation/plugin/highlight/highlight.js', async: true, condition: function () {
+                return !!document.querySelector('pre code');
+            }, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'dist/animation/plugin/zoom-js/zoom.js', async: true},
+            {src: 'dist/animation/plugin/notes/notes.js', async: true}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
