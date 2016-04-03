@@ -15,34 +15,48 @@
 <link href="{{ site.baseurl }}dist/js/google-code-prettify/prettify.css" rel="stylesheet">
 
 <style>
-h1,h2,h3,h4,h5,h6,li,ul,a,div{
-	font-family: "Helvetica Neue", '微软雅黑', '黑体', Helvetica, Arial, sans-serif;
-}
-body{
-	background: #eee;
-}
-::selection {
-    color: white;
-    background: #1abc9c
-}
+    h1, h2, h3, h4, h5, h6, li, ul, a, div {
+        font-family: "Helvetica Neue", '微软雅黑', '黑体', Helvetica, Arial, sans-serif;
+    }
 
-::-moz-selection {
-    color: white;
-    background: #1abc9c
-}
+    body {
+        background: #eee;
+    }
 
-::-webkit-selection {
-    color: white;
-    background: #1abc9c
-}
+    ::selection {
+        color: white;
+        background: #1abc9c
+    }
+
+    ::-moz-selection {
+        color: white;
+        background: #1abc9c
+    }
+
+    ::-webkit-selection {
+        color: white;
+        background: #1abc9c
+    }
+
+    .navbar-inverse .navbar-nav > li > a {
+        transition: all .5s;
+        -moz-transition: all .5s;
+        -o-transition: all .5s;
+        -webkit-transition: all .5s;
+    }
+
+    .navbar-inverse .navbar-nav > li > a:hover {
+        background: rgba(100, 100, 100, 0.4);
+    }
 
 </style>
-<!--[if lt IE 9]><script src="{{ site.baseurl }}assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<!--[if lt IE 9]>
+<script src="{{ site.baseurl }}assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
 <!-- Favicons -->
