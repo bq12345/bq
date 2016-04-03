@@ -10,7 +10,7 @@ var S = {
 
         S.Drawing.init('.canvas');
         document.body.classList.add('body--ready');
-        S.UI.simulate('Welcome|#time|#countdown 3||');
+        S.UI.simulate('Welcome|#time|Ready?|#countdown 2|Go!|');
         S.Drawing.loop(function () {
             S.Shape.render();
         });
@@ -23,13 +23,13 @@ S.Drawing = (function () {
         context,
         renderFn
     requestFrame = window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function (callback) {
-        window.setTimeout(callback, 1000 / 60);
-    };
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (callback) {
+            window.setTimeout(callback, 1000 / 60);
+        };
 
     return {
         init: function (el) {
