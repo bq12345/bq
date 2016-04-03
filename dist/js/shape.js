@@ -10,7 +10,7 @@ var S = {
 
         S.Drawing.init('.canvas');
         document.body.classList.add('body--ready');
-        S.UI.simulate('Welcome|time|#countdown 3||');
+        S.UI.simulate('Welcome|#time|#countdown 3||');
         S.Drawing.loop(function () {
             S.Shape.render();
         });
