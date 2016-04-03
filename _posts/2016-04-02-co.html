@@ -1,0 +1,343 @@
+---
+layout: default
+title: CO
+---
+
+<link rel="stylesheet" type="text/css" href="/dist/css/github.css">
+
+<article class="markdown-body"><h3>
+    <a id="user-content-co-代码" class="anchor" href="#co-%E4%BB%A3%E7%A0%81" aria-hidden="true"><span aria-hidden="true"
+                                                                                                     class="octicon octicon-link"></span></a>CO
+    代码</h3>
+
+    <div class="highlight highlight-source-js"><pre>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * slice() reference.</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">var</span> slice <span class="pl-k">=</span> <span class="pl-c1">Array</span>.<span class="pl-c1">prototype</span>.<span
+            class="pl-smi">slice</span>;
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Expose `co`.</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Wrap the given generator `fn` into a</span>
+<span class="pl-c"> * function that returns a promise.</span>
+<span class="pl-c"> * This is a separate function so that</span>
+<span class="pl-c"> * every `co()` call doesn't create a new,</span>
+<span class="pl-c"> * unnecessary closure.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{GeneratorFunction}</span> <span
+        class="pl-smi">fn</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Function}</span>
+<span class="pl-c"> * @api public</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-smi">co</span>.<span class="pl-en">wrap</span> <span class="pl-k">=</span> <span
+            class="pl-k">function</span> (<span class="pl-smi">fn</span>) {
+    <span class="pl-smi">createPromise</span>.<span class="pl-smi">__generatorFunction__</span> <span
+            class="pl-k">=</span> fn;
+    <span class="pl-k">return</span> createPromise;
+    <span class="pl-k">function</span> <span class="pl-en">createPromise</span>() {
+        <span class="pl-k">return</span> <span class="pl-smi">co</span>.<span class="pl-c1">call</span>(<span
+            class="pl-v">this</span>, <span class="pl-smi">fn</span>.<span class="pl-c1">apply</span>(<span
+            class="pl-v">this</span>, arguments));
+    }
+};
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Execute the generator function or a generator</span>
+<span class="pl-c"> * and return a promise.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Function}</span> <span
+        class="pl-smi">fn</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Promise}</span>
+<span class="pl-c"> * @api public</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">function</span> <span class="pl-en">co</span>(<span class="pl-smi">gen</span>) {
+    <span class="pl-k">var</span> ctx <span class="pl-k">=</span> <span class="pl-v">this</span>;
+    <span class="pl-k">var</span> args <span class="pl-k">=</span> <span class="pl-smi">slice</span>.<span
+            class="pl-c1">call</span>(arguments, <span class="pl-c1">1</span>);
+
+    <span class="pl-c">// we wrap everything in a promise to avoid promise chaining,</span>
+    <span class="pl-c">// which leads to memory leak errors.</span>
+    <span class="pl-c">// see https://github.com/tj/co/issues/180</span>
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-en">Promise</span>(<span
+            class="pl-k">function</span> (<span class="pl-smi">resolve</span>, <span class="pl-smi">reject</span>) {
+        <span class="pl-k">if</span> (<span class="pl-k">typeof</span> gen <span class="pl-k">===</span> <span
+            class="pl-s"><span class="pl-pds">'</span>function<span class="pl-pds">'</span></span>) gen <span
+            class="pl-k">=</span> <span class="pl-smi">gen</span>.<span class="pl-c1">apply</span>(ctx, args);
+        <span class="pl-k">if</span> (<span class="pl-k">!</span>gen <span class="pl-k">||</span> <span class="pl-k">typeof</span> <span
+            class="pl-smi">gen</span>.<span class="pl-c1">next</span> <span class="pl-k">!==</span> <span
+            class="pl-s"><span class="pl-pds">'</span>function<span class="pl-pds">'</span></span>) <span class="pl-k">return</span> <span
+            class="pl-en">resolve</span>(gen);
+
+        <span class="pl-en">onFulfilled</span>();
+
+        <span class="pl-c">/**</span>
+<span class="pl-c">         * <span class="pl-k">@param</span> <span class="pl-en">{Mixed}</span> <span class="pl-smi">res</span></span>
+<span class="pl-c">         * <span class="pl-k">@return</span> {Promise}</span>
+<span class="pl-c">         * @api private</span>
+<span class="pl-c">         */</span>
+
+        <span class="pl-k">function</span> <span class="pl-en">onFulfilled</span>(<span class="pl-smi">res</span>) {
+            <span class="pl-k">var</span> ret;
+            <span class="pl-k">try</span> {
+                ret <span class="pl-k">=</span> <span class="pl-smi">gen</span>.<span class="pl-c1">next</span>(res);
+            } <span class="pl-k">catch</span> (e) {
+                <span class="pl-k">return</span> <span class="pl-en">reject</span>(e);
+            }
+            <span class="pl-en">next</span>(ret);
+            <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+        }
+
+        <span class="pl-c">/**</span>
+<span class="pl-c">         * <span class="pl-k">@param</span> <span class="pl-en">{Error}</span> <span class="pl-smi">err</span></span>
+<span class="pl-c">         * <span class="pl-k">@return</span> {Promise}</span>
+<span class="pl-c">         * @api private</span>
+<span class="pl-c">         */</span>
+
+        <span class="pl-k">function</span> <span class="pl-en">onRejected</span>(<span class="pl-smi">err</span>) {
+            <span class="pl-k">var</span> ret;
+            <span class="pl-k">try</span> {
+                ret <span class="pl-k">=</span> <span class="pl-smi">gen</span>.<span class="pl-en">throw</span>(err);
+            } <span class="pl-k">catch</span> (e) {
+                <span class="pl-k">return</span> <span class="pl-en">reject</span>(e);
+            }
+            <span class="pl-en">next</span>(ret);
+        }
+
+        <span class="pl-c">/**</span>
+<span class="pl-c">         * Get the next value in the generator,</span>
+<span class="pl-c">         * return a promise.</span>
+<span class="pl-c">         *</span>
+<span class="pl-c">         * <span class="pl-k">@param</span> <span class="pl-en">{Object}</span> <span class="pl-smi">ret</span></span>
+<span class="pl-c">         * <span class="pl-k">@return</span> {Promise}</span>
+<span class="pl-c">         * @api private</span>
+<span class="pl-c">         */</span>
+
+        <span class="pl-k">function</span> <span class="pl-en">next</span>(<span class="pl-smi">ret</span>) {
+            <span class="pl-k">if</span> (<span class="pl-smi">ret</span>.<span class="pl-smi">done</span>) <span
+            class="pl-k">return</span> <span class="pl-en">resolve</span>(<span class="pl-smi">ret</span>.<span
+            class="pl-c1">value</span>);
+            <span class="pl-k">var</span> value <span class="pl-k">=</span> <span class="pl-smi">toPromise</span>.<span
+            class="pl-c1">call</span>(ctx, <span class="pl-smi">ret</span>.<span class="pl-c1">value</span>);
+            <span class="pl-k">if</span> (value <span class="pl-k">&amp;&amp;</span> <span
+            class="pl-en">isPromise</span>(value)) <span class="pl-k">return</span> <span
+            class="pl-smi">value</span>.<span class="pl-en">then</span>(onFulfilled, onRejected);
+            <span class="pl-k">return</span> <span class="pl-en">onRejected</span>(<span class="pl-k">new</span> <span
+            class="pl-en">TypeError</span>(<span class="pl-s"><span class="pl-pds">'</span>You may only yield a function, promise, generator, array, or object, <span
+            class="pl-pds">'</span></span>
+                    <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>but the following object was passed: "<span
+            class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-c1">String</span>(<span
+            class="pl-smi">ret</span>.<span class="pl-c1">value</span>) <span class="pl-k">+</span> <span
+            class="pl-s"><span class="pl-pds">'</span>"<span class="pl-pds">'</span></span>));
+        }
+    });
+}
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Convert a `yield`ed value into a promise.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Mixed}</span> <span
+        class="pl-smi">obj</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Promise}</span>
+<span class="pl-c"> * @api private</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">function</span> <span class="pl-en">toPromise</span>(<span class="pl-smi">obj</span>) {
+    <span class="pl-k">if</span> (<span class="pl-k">!</span>obj) <span class="pl-k">return</span> obj;
+    <span class="pl-k">if</span> (<span class="pl-en">isPromise</span>(obj)) <span class="pl-k">return</span> obj;
+    <span class="pl-k">if</span> (<span class="pl-en">isGeneratorFunction</span>(obj) <span class="pl-k">||</span> <span
+            class="pl-en">isGenerator</span>(obj)) <span class="pl-k">return</span> <span class="pl-smi">co</span>.<span
+            class="pl-c1">call</span>(<span class="pl-v">this</span>, obj);
+    <span class="pl-k">if</span> (<span class="pl-s"><span class="pl-pds">'</span>function<span class="pl-pds">'</span></span> <span
+            class="pl-k">==</span> <span class="pl-k">typeof</span> obj) <span class="pl-k">return</span> <span
+            class="pl-smi">thunkToPromise</span>.<span class="pl-c1">call</span>(<span class="pl-v">this</span>, obj);
+    <span class="pl-k">if</span> (<span class="pl-c1">Array</span>.<span class="pl-en">isArray</span>(obj)) <span
+            class="pl-k">return</span> <span class="pl-smi">arrayToPromise</span>.<span class="pl-c1">call</span>(<span
+            class="pl-v">this</span>, obj);
+    <span class="pl-k">if</span> (<span class="pl-en">isObject</span>(obj)) <span class="pl-k">return</span> <span
+            class="pl-smi">objectToPromise</span>.<span class="pl-c1">call</span>(<span class="pl-v">this</span>, obj);
+    <span class="pl-k">return</span> obj;
+}
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Convert a thunk to a promise.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> {Function}</span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Promise}</span>
+<span class="pl-c"> * @api private</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">function</span> <span class="pl-en">thunkToPromise</span>(<span class="pl-smi">fn</span>) {
+    <span class="pl-k">var</span> ctx <span class="pl-k">=</span> <span class="pl-v">this</span>;
+    <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-en">Promise</span>(<span
+            class="pl-k">function</span> (<span class="pl-smi">resolve</span>, <span class="pl-smi">reject</span>) {
+        <span class="pl-smi">fn</span>.<span class="pl-c1">call</span>(ctx, <span class="pl-k">function</span> (<span
+            class="pl-smi">err</span>, <span class="pl-smi">res</span>) {
+            <span class="pl-k">if</span> (err) <span class="pl-k">return</span> <span class="pl-en">reject</span>(err);
+            <span class="pl-k">if</span> (<span class="pl-smi">arguments</span>.<span class="pl-c1">length</span> <span
+            class="pl-k">&gt;</span> <span class="pl-c1">2</span>) res <span class="pl-k">=</span> <span class="pl-smi">slice</span>.<span
+            class="pl-c1">call</span>(arguments, <span class="pl-c1">1</span>);
+            <span class="pl-en">resolve</span>(res);
+        });
+    });
+}
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Convert an array of "yieldables" to a promise.</span>
+<span class="pl-c"> * Uses `Promise.all()` internally.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Array}</span> <span
+        class="pl-smi">obj</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Promise}</span>
+<span class="pl-c"> * @api private</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">function</span> <span class="pl-en">arrayToPromise</span>(<span class="pl-smi">obj</span>) {
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-c1">all</span>(<span
+            class="pl-smi">obj</span>.<span class="pl-en">map</span>(toPromise, <span class="pl-v">this</span>));
+}
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Convert an object of "yieldables" to a promise.</span>
+<span class="pl-c"> * Uses `Promise.all()` internally.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Object}</span> <span
+        class="pl-smi">obj</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Promise}</span>
+<span class="pl-c"> * @api private</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">function</span> <span class="pl-en">objectToPromise</span>(<span class="pl-smi">obj</span>) {
+    <span class="pl-k">var</span> results <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">obj.constructor</span>();
+    <span class="pl-k">var</span> keys <span class="pl-k">=</span> <span class="pl-c1">Object</span>.<span
+            class="pl-en">keys</span>(obj);
+    <span class="pl-k">var</span> promises <span class="pl-k">=</span> [];
+    <span class="pl-k">for</span> (<span class="pl-k">var</span> i <span class="pl-k">=</span> <span
+            class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> <span class="pl-smi">keys</span>.<span
+            class="pl-c1">length</span>; i<span class="pl-k">++</span>) {
+        <span class="pl-k">var</span> key <span class="pl-k">=</span> keys[i];
+        <span class="pl-k">var</span> promise <span class="pl-k">=</span> <span class="pl-smi">toPromise</span>.<span
+            class="pl-c1">call</span>(<span class="pl-v">this</span>, obj[key]);
+        <span class="pl-k">if</span> (promise <span class="pl-k">&amp;&amp;</span> <span class="pl-en">isPromise</span>(promise)) <span
+            class="pl-en">defer</span>(promise, key);
+        <span class="pl-k">else</span> results[key] <span class="pl-k">=</span> obj[key];
+    }
+    <span class="pl-k">return</span> <span class="pl-smi">Promise</span>.<span class="pl-c1">all</span>(promises).<span
+            class="pl-en">then</span>(<span class="pl-k">function</span> () {
+        <span class="pl-k">return</span> results;
+    });
+
+    <span class="pl-k">function</span> <span class="pl-en">defer</span>(<span class="pl-smi">promise</span>, <span
+            class="pl-smi">key</span>) {
+        <span class="pl-c">// predefine the key in the result</span>
+        results[key] <span class="pl-k">=</span> <span class="pl-c1">undefined</span>;
+        <span class="pl-smi">promises</span>.<span class="pl-c1">push</span>(<span class="pl-smi">promise</span>.<span
+            class="pl-en">then</span>(<span class="pl-k">function</span> (<span class="pl-smi">res</span>) {
+            results[key] <span class="pl-k">=</span> res;
+        }));
+    }
+}
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Check if `obj` is a promise.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Object}</span> <span
+        class="pl-smi">obj</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Boolean}</span>
+<span class="pl-c"> * @api private</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">function</span> <span class="pl-en">isPromise</span>(<span class="pl-smi">obj</span>) {
+    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>function<span
+            class="pl-pds">'</span></span> <span class="pl-k">==</span> <span class="pl-k">typeof</span> <span
+            class="pl-smi">obj</span>.<span class="pl-smi">then</span>;
+}
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Check if `obj` is a generator.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Mixed}</span> <span
+        class="pl-smi">obj</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Boolean}</span>
+<span class="pl-c"> * @api private</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">function</span> <span class="pl-en">isGenerator</span>(<span class="pl-smi">obj</span>) {
+    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>function<span
+            class="pl-pds">'</span></span> <span class="pl-k">==</span> <span class="pl-k">typeof</span> <span
+            class="pl-smi">obj</span>.<span class="pl-c1">next</span> <span class="pl-k">&amp;&amp;</span> <span
+            class="pl-s"><span class="pl-pds">'</span>function<span class="pl-pds">'</span></span> <span
+            class="pl-k">==</span> <span class="pl-k">typeof</span> <span class="pl-smi">obj</span>.<span
+            class="pl-smi">throw</span>;
+}
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Check if `obj` is a generator function.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Mixed}</span> <span
+        class="pl-smi">obj</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Boolean}</span>
+<span class="pl-c"> * @api private</span>
+<span class="pl-c"> */</span>
+<span class="pl-k">function</span> <span class="pl-en">isGeneratorFunction</span>(<span class="pl-smi">obj</span>) {
+    <span class="pl-k">var</span> constructor <span class="pl-k">=</span> <span class="pl-smi">obj</span>.<span
+            class="pl-c1">constructor</span>;
+    <span class="pl-k">if</span> (<span class="pl-k">!</span>constructor) <span class="pl-k">return</span> <span
+            class="pl-c1">false</span>;
+    <span class="pl-k">if</span> (<span class="pl-s"><span class="pl-pds">'</span>GeneratorFunction<span class="pl-pds">'</span></span> <span
+            class="pl-k">===</span> <span class="pl-smi">constructor</span>.<span class="pl-c1">name</span> <span
+            class="pl-k">||</span> <span class="pl-s"><span class="pl-pds">'</span>GeneratorFunction<span
+            class="pl-pds">'</span></span> <span class="pl-k">===</span> <span class="pl-smi">constructor</span>.<span
+            class="pl-smi">displayName</span>) <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+    <span class="pl-k">return</span> <span class="pl-en">isGenerator</span>(<span
+            class="pl-smi">constructor</span>.<span class="pl-c1">prototype</span>);
+}
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Check for plain object.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Mixed}</span> <span
+        class="pl-smi">val</span></span>
+<span class="pl-c"> * <span class="pl-k">@return</span> {Boolean}</span>
+<span class="pl-c"> * @api private</span>
+<span class="pl-c"> */</span>
+
+<span class="pl-k">function</span> <span class="pl-en">isObject</span>(<span class="pl-smi">val</span>) {
+    <span class="pl-k">return</span> <span class="pl-c1">Object</span> <span class="pl-k">==</span> <span
+            class="pl-smi">val</span>.<span class="pl-c1">constructor</span>;
+}</pre>
+    </div>
+
+
+</article>
+
+<script>
+    var timer = function (val, cb) {
+        setTimeout(function () {
+            cb(val, cb);
+        }, 2000);
+    };
+    var p = new Promise(function (resolve, reject) {
+        console.log("p", Date.now());
+        var bool = Math.random() > 0.5;
+        timer(bool, function (ret) {
+            console.log("2s later", ret);
+            if (ret) {
+                resolve(ret);
+            }
+            reject(ret);
+        });
+    });
+    p.then(function (res) {
+        console.log(res);
+    }, function (res) {
+        console.error(res);
+    });
+    console.log("sync", Date.now());
+</script>
