@@ -5,16 +5,14 @@ title: Async
 
 <link rel="stylesheet" type="text/css" href="/dist/css/github.css">
 
-<article class="markdown-body">
-    <div class="highlight highlight-source-js"><pre>
-### Generator
+<article class="markdown-body"><h3>
+    <a id="user-content-generator" class="anchor" href="#generator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Generator</h3>
 
+    <div class="highlight highlight-source-js"><pre>
 <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
 
-<span class="pl-k">function</span><span class="pl-k">*</span> <span class="pl-en">objectEntries</span>(<span
-            class="pl-smi">obj</span>) {
-    <span class="pl-k">let</span> propKeys <span class="pl-k">=</span> <span class="pl-smi">Reflect</span>.<span
-            class="pl-en">ownKeys</span>(obj);
+<span class="pl-k">function</span><span class="pl-k">*</span> <span class="pl-en">objectEntries</span>(<span class="pl-smi">obj</span>) {
+    <span class="pl-k">let</span> propKeys <span class="pl-k">=</span> <span class="pl-smi">Reflect</span>.<span class="pl-en">ownKeys</span>(obj);
 
     <span class="pl-k">for</span> (<span class="pl-k">let</span> propKey <span class="pl-k">of</span> propKeys) {
         <span class="pl-c">// `yield` returns a value and then pauses</span>
@@ -24,35 +22,21 @@ title: Async
     }
 }
 
-<span class="pl-k">let</span> jane <span class="pl-k">=</span> {first<span class="pl-k">:</span> <span
-            class="pl-s"><span class="pl-pds">'</span>Jane<span class="pl-pds">'</span></span>, last<span
-            class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Doe<span
-            class="pl-pds">'</span></span>};
-<span class="pl-k">for</span> (<span class="pl-k">let</span> [key,value] <span class="pl-k">of</span> <span
-            class="pl-en">objectEntries</span>(jane)) {
-    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span
-            class="pl-pds">`</span><span class="pl-s1"><span class="pl-pse">${</span>key<span
-            class="pl-pse">}</span></span>: <span class="pl-s1"><span class="pl-pse">${</span>value<span class="pl-pse">}</span></span><span
-            class="pl-pds">`</span></span>);
+<span class="pl-k">let</span> jane <span class="pl-k">=</span> {first<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Jane<span class="pl-pds">'</span></span>, last<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Doe<span class="pl-pds">'</span></span>};
+<span class="pl-k">for</span> (<span class="pl-k">let</span> [key,value] <span class="pl-k">of</span> <span class="pl-en">objectEntries</span>(jane)) {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">`</span><span class="pl-s1"><span class="pl-pse">${</span>key<span class="pl-pse">}</span></span>: <span class="pl-s1"><span class="pl-pse">${</span>value<span class="pl-pse">}</span></span><span class="pl-pds">`</span></span>);
 }
-</pre>
-    </div>
+</pre></div>
 
     <h3>
-        <a id="user-content-co-usage" class="anchor" href="#co-usage" aria-hidden="true"><span aria-hidden="true"
-                                                                                               class="octicon octicon-link"></span></a>CO
-        Usage</h3>
+        <a id="user-content-co-usage" class="anchor" href="#co-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CO Usage</h3>
 
     <div class="highlight highlight-source-js"><pre>
 <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
-<span class="pl-k">let</span> co <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span
-            class="pl-pds">"</span>co<span class="pl-pds">"</span></span>);
+<span class="pl-k">let</span> co <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>co<span class="pl-pds">"</span></span>);
 
-<span class="pl-k">let</span> p <span class="pl-k">=</span> <span class="pl-k">new</span> <span
-            class="pl-en">Promise</span>((<span class="pl-smi">resovle</span>, <span class="pl-smi">reject</span>)<span
-            class="pl-k">=&gt;</span> {
-    <span class="pl-k">if</span> (<span class="pl-c1">Math</span>.<span class="pl-c1">random</span>() <span
-            class="pl-k">&gt;</span> <span class="pl-c1">0.5</span>) {
+<span class="pl-k">let</span> p <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Promise</span>((<span class="pl-smi">resovle</span>, <span class="pl-smi">reject</span>)<span class="pl-k">=&gt;</span> {
+    <span class="pl-k">if</span> (<span class="pl-c1">Math</span>.<span class="pl-c1">random</span>() <span class="pl-k">&gt;</span> <span class="pl-c1">0.5</span>) {
         <span class="pl-en">resovle</span>(<span class="pl-c1">true</span>);
     } <span class="pl-k">else</span> {
         <span class="pl-en">reject</span>(<span class="pl-c1">false</span>);
@@ -63,18 +47,15 @@ title: Async
     <span class="pl-en">console</span>.<span class="pl-c1">log</span>(res);
 });
 
-</pre>
-    </div>
+</pre></div>
 
     <h3>
-        <a id="user-content-封装一个promise" class="anchor" href="#%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AApromise"
-           aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>封装一个Promise</h3>
+        <a id="user-content-封装一个promise" class="anchor" href="#%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AApromise" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>封装一个Promise</h3>
 
     <div class="highlight highlight-source-js"><pre>
 <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
 
-<span class="pl-k">let</span> fs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span
-            class="pl-pds">"</span>fs<span class="pl-pds">"</span></span>);
+<span class="pl-k">let</span> fs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>fs<span class="pl-pds">"</span></span>);
 
 <span class="pl-k">let</span> api <span class="pl-k">=</span> [
     <span class="pl-s"><span class="pl-pds">'</span>rename<span class="pl-pds">'</span></span>,
@@ -108,121 +89,79 @@ title: Async
     <span class="pl-s"><span class="pl-pds">'</span>truncate<span class="pl-pds">'</span></span>
 ];
 
-<span class="pl-k">let</span> <span class="pl-en">createCallback</span> <span class="pl-k">=</span> (<span
-            class="pl-smi">resolve</span>, <span class="pl-smi">reject</span>)<span class="pl-k">=&gt;</span> {
-    <span class="pl-k">return</span> <span class="pl-k">function</span> (<span class="pl-smi">err</span>, <span
-            class="pl-smi">value</span>) {
+<span class="pl-k">let</span> <span class="pl-en">createCallback</span> <span class="pl-k">=</span> (<span class="pl-smi">resolve</span>, <span class="pl-smi">reject</span>)<span class="pl-k">=&gt;</span> {
+    <span class="pl-k">return</span> <span class="pl-k">function</span> (<span class="pl-smi">err</span>, <span class="pl-smi">value</span>) {
         <span class="pl-k">if</span> (err) <span class="pl-k">return</span> <span class="pl-en">reject</span>(err);
-        <span class="pl-k">let</span> length <span class="pl-k">=</span> <span class="pl-smi">arguments</span>.<span
-            class="pl-c1">length</span>;
+        <span class="pl-k">let</span> length <span class="pl-k">=</span> <span class="pl-smi">arguments</span>.<span class="pl-c1">length</span>;
         <span class="pl-k">if</span> (length <span class="pl-k">&lt;=</span> <span class="pl-c1">2</span>) {
             <span class="pl-k">return</span> <span class="pl-en">resolve</span>(value);
         }
-        <span class="pl-k">let</span> values <span class="pl-k">=</span> <span class="pl-k">new</span> <span
-            class="pl-en">Array</span>(length <span class="pl-k">-</span> <span class="pl-c1">1</span>);
-        <span class="pl-k">for</span> (<span class="pl-k">let</span> i <span class="pl-k">=</span> <span
-            class="pl-c1">1</span>; i <span class="pl-k">&lt;</span> length; <span class="pl-k">++</span>i) {
+        <span class="pl-k">let</span> values <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Array</span>(length <span class="pl-k">-</span> <span class="pl-c1">1</span>);
+        <span class="pl-k">for</span> (<span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">1</span>; i <span class="pl-k">&lt;</span> length; <span class="pl-k">++</span>i) {
             values[i <span class="pl-k">-</span> <span class="pl-c1">1</span>] <span class="pl-k">=</span> arguments[i];
         }
         <span class="pl-en">resolve</span>(values)
     }
 };
 
-<span class="pl-k">let</span> <span class="pl-en">_wrap</span> <span class="pl-k">=</span> (<span
-            class="pl-smi">name</span>)<span class="pl-k">=&gt;</span> {
-    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>(function <span
-            class="pl-pds">'</span></span> <span class="pl-k">+</span> (name <span class="pl-k">||</span> <span
-            class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>) <span class="pl-k">+</span> <span
-            class="pl-s"><span class="pl-pds">'</span>() {<span class="pl-cce">\n</span><span
-            class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var self = this<span class="pl-cce">\n</span><span
-            class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var len = arguments.length<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var lastType = typeof arguments[len - 1]<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>if (lastType === "function") return fn.apply(self, arguments)<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var args = new Array(len + 1)<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>for (var i = 0; i &lt; len; ++i) args[i] = arguments[i]<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var lastIndex = i<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>return new Promise(function (resolve, reject) {<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>args[lastIndex] = createCallback(resolve, reject)<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>fn.apply(self, args)<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>})<span
-            class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>})<span
-            class="pl-pds">'</span></span>
+<span class="pl-k">let</span> <span class="pl-en">_wrap</span> <span class="pl-k">=</span> (<span class="pl-smi">name</span>)<span class="pl-k">=&gt;</span> {
+    <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>(function <span class="pl-pds">'</span></span> <span class="pl-k">+</span> (name <span class="pl-k">||</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>() {<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var self = this<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var len = arguments.length<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var lastType = typeof arguments[len - 1]<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>if (lastType === "function") return fn.apply(self, arguments)<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var args = new Array(len + 1)<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>for (var i = 0; i &lt; len; ++i) args[i] = arguments[i]<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>var lastIndex = i<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>return new Promise(function (resolve, reject) {<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>args[lastIndex] = createCallback(resolve, reject)<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>fn.apply(self, args)<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>})<span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+        <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>})<span class="pl-pds">'</span></span>
 };
 
 <span class="pl-c">/**</span>
 <span class="pl-c"> * Turn async functions into promises and backward compatible with callback</span>
 <span class="pl-c"> *</span>
-<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Function}</span> <span
-        class="pl-smi">fn</span> is the async function</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Function}</span> <span class="pl-smi">fn</span> is the async function</span>
 <span class="pl-c"> * <span class="pl-k">@return</span> {Object}</span>
 <span class="pl-c"> * @api public</span>
 <span class="pl-c"> */</span>
-<span class="pl-k">let</span> <span class="pl-en">promisify</span> <span class="pl-k">=</span> (<span
-            class="pl-smi">fn</span>)<span class="pl-k">=&gt;</span> {
-    <span class="pl-k">return</span> <span class="pl-c1">eval</span>(<span class="pl-en">_wrap</span>(<span
-            class="pl-smi">fn</span>.<span class="pl-c1">name</span>, <span class="pl-c1">true</span>));
+<span class="pl-k">let</span> <span class="pl-en">promisify</span> <span class="pl-k">=</span> (<span class="pl-smi">fn</span>)<span class="pl-k">=&gt;</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">eval</span>(<span class="pl-en">_wrap</span>(<span class="pl-smi">fn</span>.<span class="pl-c1">name</span>, <span class="pl-c1">true</span>));
 };
 
 <span class="pl-c">/**</span>
 <span class="pl-c"> * sync all the selected functions in an object and backward compatible with callback.</span>
 <span class="pl-c"> *</span>
-<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Object}</span> <span
-        class="pl-smi">source</span> the source object for the async functions</span>
-<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Object}</span> <span
-        class="pl-smi">target</span> the destination to set all the promisified methods</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Object}</span> <span class="pl-smi">source</span> the source object for the async functions</span>
+<span class="pl-c"> * <span class="pl-k">@param</span> <span class="pl-en">{Object}</span> <span class="pl-smi">target</span> the destination to set all the promisified methods</span>
 <span class="pl-c"> * <span class="pl-k">@param</span> {Array} [methods] an array of method names of `source`</span>
 <span class="pl-c"> * <span class="pl-k">@return</span> {Object}</span>
 <span class="pl-c"> * @api public</span>
 <span class="pl-c"> */</span>
-<span class="pl-k">let</span> <span class="pl-en">sync</span> <span class="pl-k">=</span> <span
-            class="pl-k">function</span> (<span class="pl-smi">source</span>, <span class="pl-smi">target</span>, <span
-            class="pl-smi">methods</span>) {
-    <span class="pl-smi">methods</span>.<span class="pl-en">forEach</span>((<span class="pl-smi">name</span>)<span
-            class="pl-k">=&gt;</span> {
-        <span class="pl-k">if</span> (<span class="pl-k">typeof</span> source[name] <span class="pl-k">===</span> <span
-            class="pl-s"><span class="pl-pds">'</span>function<span class="pl-pds">'</span></span>) {
+<span class="pl-k">let</span> <span class="pl-en">sync</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">source</span>, <span class="pl-smi">target</span>, <span class="pl-smi">methods</span>) {
+    <span class="pl-smi">methods</span>.<span class="pl-en">forEach</span>((<span class="pl-smi">name</span>)<span class="pl-k">=&gt;</span> {
+        <span class="pl-k">if</span> (<span class="pl-k">typeof</span> source[name] <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>function<span class="pl-pds">'</span></span>) {
             target[name] <span class="pl-k">=</span> <span class="pl-en">promisify</span>(source[name]);
         }
     });
     <span class="pl-k">return</span> target;
 };
 
-<span class="pl-k">typeof</span> <span class="pl-smi">fs</span>.<span class="pl-smi">access</span> <span class="pl-k">===</span> <span
-            class="pl-s"><span class="pl-pds">'</span>function<span class="pl-pds">'</span></span> <span class="pl-k">&amp;&amp;</span> <span
-            class="pl-smi">api</span>.<span class="pl-c1">push</span>(<span class="pl-s"><span class="pl-pds">'</span>access<span
-            class="pl-pds">'</span></span>);
+<span class="pl-k">typeof</span> <span class="pl-smi">fs</span>.<span class="pl-smi">access</span> <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>function<span class="pl-pds">'</span></span> <span class="pl-k">&amp;&amp;</span> <span class="pl-smi">api</span>.<span class="pl-c1">push</span>(<span class="pl-s"><span class="pl-pds">'</span>access<span class="pl-pds">'</span></span>);
 
 <span class="pl-en">sync</span>(fs, <span class="pl-c1">exports</span>, api);
-</pre>
-    </div>
+</pre></div>
 
     <h3>
-        <a id="user-content-test" class="anchor" href="#test" aria-hidden="true"><span aria-hidden="true"
-                                                                                       class="octicon octicon-link"></span></a>Test
-    </h3>
+        <a id="user-content-test" class="anchor" href="#test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test</h3>
 
-    <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> fs <span class="pl-k">=</span> <span
-            class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>fs<span class="pl-pds">"</span></span>);
-<span class="pl-k">let</span> syncFs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span
-                class="pl-s"><span class="pl-pds">"</span>./fs<span class="pl-pds">"</span></span>);
-<span class="pl-k">let</span> co <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span
-                class="pl-pds">"</span>co<span class="pl-pds">"</span></span>);
+    <div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> fs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>fs<span class="pl-pds">"</span></span>);
+<span class="pl-k">let</span> syncFs <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>./fs<span class="pl-pds">"</span></span>);
+<span class="pl-k">let</span> co <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">"</span>co<span class="pl-pds">"</span></span>);
 
-<span class="pl-smi">fs</span>.<span class="pl-en">stat</span>(<span class="pl-s"><span
-                class="pl-pds">"</span>fss.js<span class="pl-pds">"</span></span>, (<span
-                class="pl-smi">err</span>, <span class="pl-smi">stat</span>)<span class="pl-k">=&gt;</span> {
+<span class="pl-smi">fs</span>.<span class="pl-en">stat</span>(<span class="pl-s"><span class="pl-pds">"</span>fss.js<span class="pl-pds">"</span></span>, (<span class="pl-smi">err</span>, <span class="pl-smi">stat</span>)<span class="pl-k">=&gt;</span> {
     <span class="pl-k">if</span> (<span class="pl-k">!</span>err) {
         <span class="pl-en">console</span>.<span class="pl-c1">log</span>(stat);
     } <span class="pl-k">else</span> {
@@ -230,26 +169,19 @@ title: Async
     }
 });
 
-<span class="pl-smi">syncFs</span>.<span class="pl-en">stat</span>(<span class="pl-s"><span class="pl-pds">"</span>fs.js<span
-                class="pl-pds">"</span></span>).<span class="pl-en">then</span>((<span class="pl-smi">stat</span>)<span
-                class="pl-k">=&gt;</span> {
+<span class="pl-smi">syncFs</span>.<span class="pl-en">stat</span>(<span class="pl-s"><span class="pl-pds">"</span>fs.js<span class="pl-pds">"</span></span>).<span class="pl-en">then</span>((<span class="pl-smi">stat</span>)<span class="pl-k">=&gt;</span> {
     <span class="pl-en">console</span>.<span class="pl-c1">log</span>(stat);
 }, (<span class="pl-smi">err</span>)<span class="pl-k">=&gt;</span> {
     <span class="pl-en">console</span>.<span class="pl-c1">log</span>(err);
 });
 
 <span class="pl-en">co</span>(<span class="pl-k">function</span><span class="pl-k">*</span>() {
-    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>start<span
-                class="pl-pds">"</span></span>);
-    <span class="pl-k">let</span> res <span class="pl-k">=</span> <span class="pl-k">yield</span> <span class="pl-smi">syncFs</span>.<span
-                class="pl-en">stat</span>(<span class="pl-s"><span class="pl-pds">"</span>fs.js<span
-                class="pl-pds">"</span></span>);
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>start<span class="pl-pds">"</span></span>);
+    <span class="pl-k">let</span> res <span class="pl-k">=</span> <span class="pl-k">yield</span> <span class="pl-smi">syncFs</span>.<span class="pl-en">stat</span>(<span class="pl-s"><span class="pl-pds">"</span>fs.js<span class="pl-pds">"</span></span>);
     <span class="pl-en">console</span>.<span class="pl-c1">log</span>(res);
-    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>end<span
-                class="pl-pds">"</span></span>);
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">"</span>end<span class="pl-pds">"</span></span>);
 
 });
 
-</pre>
-    </div>
+</pre></div>
 </article>
