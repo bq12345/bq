@@ -1,0 +1,83 @@
+---
+layout: default
+title: 数字->汉字
+---
+
+<link rel="stylesheet" type="text/css" href="/dist/css/github.css">
+
+<article class="markdown-body"><h3>
+    <a id="user-content-数字转为汉字的一个问题" class="anchor"
+       href="#%E6%95%B0%E5%AD%97%E8%BD%AC%E4%B8%BA%E6%B1%89%E5%AD%97%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98"
+       aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>数字转为汉字的一个问题</h3>
+
+    <p>今天看到一个问题是将数字转为汉字，在此列出个解法可以参考下</p>
+
+    <p>在金额转化方面很有作用</p>
+
+    <div class="highlight highlight-source-js"><pre>
+<span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+
+<span class="pl-k">let</span> m <span class="pl-k">=</span> [[<span class="pl-c1">1</span>, <span class="pl-s"><span
+            class="pl-pds">"</span>一<span class="pl-pds">"</span></span>], [<span class="pl-c1">2</span>, <span
+            class="pl-s"><span class="pl-pds">"</span>二<span class="pl-pds">"</span></span>], [<span
+            class="pl-c1">3</span>, <span class="pl-s"><span class="pl-pds">"</span>三<span
+            class="pl-pds">"</span></span>], [<span class="pl-c1">4</span>, <span class="pl-s"><span
+            class="pl-pds">"</span>四<span class="pl-pds">"</span></span>], [<span class="pl-c1">5</span>, <span
+            class="pl-s"><span class="pl-pds">"</span>五<span class="pl-pds">"</span></span>], [<span
+            class="pl-c1">6</span>, <span class="pl-s"><span class="pl-pds">"</span>六<span
+            class="pl-pds">"</span></span>], [<span class="pl-c1">7</span>, <span class="pl-s"><span
+            class="pl-pds">"</span>七<span class="pl-pds">"</span></span>],
+    [<span class="pl-c1">8</span>, <span class="pl-s"><span class="pl-pds">"</span>八<span class="pl-pds">"</span></span>], [<span
+            class="pl-c1">9</span>, <span class="pl-s"><span class="pl-pds">"</span>九<span
+            class="pl-pds">"</span></span>], [<span class="pl-c1">10</span>, <span class="pl-s"><span
+            class="pl-pds">"</span>十<span class="pl-pds">"</span></span>], [<span class="pl-c1">100</span>, <span
+            class="pl-s"><span class="pl-pds">"</span>百<span class="pl-pds">"</span></span>], [<span
+            class="pl-c1">1000</span>, <span class="pl-s"><span class="pl-pds">"</span>千<span
+            class="pl-pds">"</span></span>], [<span class="pl-c1">10000</span>, <span class="pl-s"><span class="pl-pds">"</span>万<span
+            class="pl-pds">"</span></span>]];
+<span class="pl-k">let</span> ms <span class="pl-k">=</span> <span class="pl-smi">m</span>.<span
+            class="pl-c1">slice</span>().<span class="pl-c1">reverse</span>();
+
+<span class="pl-k">let</span> <span class="pl-en">toChinese</span> <span class="pl-k">=</span> (<span
+            class="pl-smi">num</span>)<span class="pl-k">=&gt;</span> {
+    <span class="pl-k">let</span> cn <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span
+            class="pl-pds">"</span></span>;
+    <span class="pl-k">let</span> n <span class="pl-k">=</span> num, pre <span class="pl-k">=</span> <span
+            class="pl-c1">0</span>;
+    <span class="pl-c">// 从大的往小的遍历</span>
+    <span class="pl-k">for</span> (<span class="pl-k">let</span> v <span class="pl-k">of</span> ms) {
+        <span class="pl-k">let</span> count <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+        <span class="pl-k">for</span> (; n <span class="pl-k">&gt;=</span> v[<span class="pl-c1">0</span>]; n <span
+            class="pl-k">-=</span> v[<span class="pl-c1">0</span>]) <span class="pl-k">++</span>count; <span
+            class="pl-c">// 从最大的数字往回去减</span>
+        <span class="pl-k">if</span> (<span class="pl-k">!</span>count)  <span class="pl-k">continue</span>;  <span
+            class="pl-c">// 从最大的开始减完后面再没有就直接跳过了</span>
+        <span class="pl-k">if</span> (pre <span class="pl-k">/</span> <span class="pl-c1">10</span> <span class="pl-k">&gt;</span> v[<span
+            class="pl-c1">0</span>]) cn <span class="pl-k">+=</span> <span class="pl-s"><span
+            class="pl-pds">"</span>零<span class="pl-pds">"</span></span>; <span class="pl-c">// 如果上个数字整除10大于自己本次的数字就加个零 这次是0的话下次就不加了保证中间只能出现一个零</span>
+        <span class="pl-k">if</span> (v[<span class="pl-c1">0</span>] <span class="pl-k">&gt;=</span> <span
+            class="pl-c1">10</span> <span class="pl-k">&amp;&amp;</span> (count <span class="pl-k">!=</span> <span
+            class="pl-c1">1</span> <span class="pl-k">||</span> num <span class="pl-k">&gt;</span> <span class="pl-c1">20</span>)) cn <span
+            class="pl-k">+=</span> m[count <span class="pl-k">-</span> <span class="pl-c1">1</span>][<span
+            class="pl-c1">1</span>]; <span class="pl-c">// 本次循环的下标大于10 并且 是20|+的，例如在20的循环到10的时候得把二这个字段加上，下面才是加十</span>
+        cn <span class="pl-k">+=</span> v[<span class="pl-c1">1</span>]; <span
+            class="pl-c">// 只要没有continue就得加上本次的单位</span>
+        pre <span class="pl-k">=</span> v[<span class="pl-c1">0</span>]; <span class="pl-c">// 保留下次使用</span>
+    }
+    <span class="pl-k">return</span> cn;
+};
+
+<span class="pl-en">console</span>.<span class="pl-c1">time</span>(<span class="pl-s"><span class="pl-pds">"</span>toChinese<span
+            class="pl-pds">"</span></span>);
+<span class="pl-k">for</span> (<span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">1</span>; i <span
+            class="pl-k">&lt;=</span> <span class="pl-c1">100000</span>; i<span class="pl-k">++</span>) {
+    <span class="pl-k">let</span> str <span class="pl-k">=</span> <span class="pl-en">toChinese</span>(<span
+            class="pl-c1">String</span>(i));
+    <span class="pl-c">// console.log(`第${str}遍！`);</span>
+}
+<span class="pl-en">console</span>.<span class="pl-c1">timeEnd</span>(<span class="pl-s"><span class="pl-pds">"</span>toChinese<span
+            class="pl-pds">"</span></span>); <span class="pl-c">// toChinese: 159.523ms</span>
+
+</pre>
+    </div>
+</article>
