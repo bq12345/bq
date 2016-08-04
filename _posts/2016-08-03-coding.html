@@ -1,0 +1,251 @@
+---
+layout: default
+title: 字符编码
+---
+
+<link rel="stylesheet" type="text/css" href="/dist/css/github.css">
+
+
+<article class="markdown-body"><h1>
+<a id="user-content-编码" class="anchor" href="#%E7%BC%96%E7%A0%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>编码</h1>
+
+<p>本篇主要讲述计算机编码相关的知识，字集码是把字符集中的字符编码为指定集合中某一对象，以便文本在计算机中存储和通过通信网络的传递。主要有 ASCII、ISO西欧系列、DOS字符集、Windows字符集、亚洲字符集、Unicode。</p>
+
+<h2>
+<a id="user-content-编码历史" class="anchor" href="#%E7%BC%96%E7%A0%81%E5%8E%86%E5%8F%B2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>编码历史</h2>
+
+<p>在计算机存储和传输的所有数据最终形态都是 0 或 1，为了能使传输字符就规定了一个数字对应一个字符，例如对于字母 a 来说，就是存入 97 这个数字，而在读取的时候遇到 97 自然也就知道了它代表的是 a。</p>
+
+<p>为了使得所有的计算机都能知道这个约定，于是 ASCII 最早就被发明出来了，包含控制字符，标点，英文大小写，同时还是留了 128-255 来后续使用。</p>
+
+<p>但是当时候的人们就没想到中文之类的非英文字符的编码问题。</p>
+
+<p>后来计算机传入中国，砖家们发明了 GB212 编码，两个字节存储，通过第一个字节位来判断，如果是 0 代表是 ASCII， 1 代码是汉字。后来又有了些新的扩展 GBK 之类的。</p>
+
+<p>但是其他国家地区就根本不知道这种编码规则，于是就诞生了各种编码，后来 ISO 着手解决这个问题。他们重新搞一个包括了地球上所有文化、所有字母和符号 的编码 --&gt; <code>Universal Multiple-Octet Coded Character Set</code>，这就是 Unicode 的来源。</p>
+
+<h2>
+<a id="user-content-unicode" class="anchor" href="#unicode" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Unicode</h2>
+
+<p>Unicode 目前实际应用的统一码版本对应于 UCS-2 ，使用16位的编码空间。也就是每个字符占用2个字节。这样理论上一共最多可以表示216（即65536）个字符。基本满足各种语言的使用。</p>
+
+<h2>
+<a id="user-content-utf" class="anchor" href="#utf" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UTF</h2>
+
+<p>Unicode只是一个符号集，它只规定了符号的二进制代码，却没有规定这个如何存储传输。而二进制代码应该如何存储Unicode的实现方式不同于编码方式。一个字符的Unicode编码是确定的。但是在实际传输过程中，由于不同系统平台的设计不一定一致，以及出于节省空间的目的，对Unicode编码的实现方式有所不同。Unicode的实现方式称为Unicode转换格式（Unicode Transformation Format，简称为UTF）</p>
+
+<h2>
+<a id="user-content-utf-8" class="anchor" href="#utf-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UTF-8</h2>
+
+<p>UTF-8（8-bit Unicode Transformation Format）是一种针对Unicode的可变长度字符编码，也是一种前缀码。它可以用来表示Unicode标准中的任何字符，且其编码中的第一个字节仍与ASCII兼容，这使得原来处理ASCII字符的软件无须或只须做少部分修改，即可继续使用。因此，它逐渐成为电子邮件、网页及其他存储或发送文字的应用中，优先采用的编码。</p>
+
+<p>所以一个很明确的二者的区分就是 <strong>UTF-8是Unicode的一种实现方式</strong>。</p>
+
+<p>UTF-8对应使用一至六个字节为每个字符编码，后来又改口了，2003年11月UTF-8被RFC 3629重新规范，只能使用原来Unicode定义的区域，U+0000到U+10FFFF，也就是说最多四个字节</p>
+
+<p>1.128个US-ASCII字符只需一个字节编码（Unicode范围由U+0000至U+007F）。</p>
+
+<p>2.带有附加符号的拉丁文、希腊文、西里尔字母、亚美尼亚语、希伯来文、阿拉伯文、叙利亚文及它拿字母则需要两个字节编码（Unicode范围由U+0080至U+07FF）。</p>
+
+<p>3.其他基本多文种平面（BMP）中的字符（这包含了大部分常用字，如大部分的汉字）使用三个字节编码（Unicode范围由U+0800至U+FFFF）。</p>
+
+<h2>
+<a id="user-content-转换" class="anchor" href="#%E8%BD%AC%E6%8D%A2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>转换</h2>
+
+<p>UTF-8的编码结构长度是根据某单个字符的大小来决定长度有多少。</p>
+
+<pre lang="text"><code>1个字节：Unicode码为0 - 127
+2个字节：Unicode码为128 - 2047
+3个字节：Unicode码为2048 - 0xFFFF
+4个字节：Unicode码为65536 - 0x1FFFFF
+
+</code></pre>
+
+<p>如下面的表格所示</p>
+
+<table>
+<b>Unicode 和 UTF-8 之间的转换关系表 ( <code>x</code> 字符表示码点占据的位 )</b>
+<tbody>
+<tr>
+<th>码点的位数</th>
+<th>码点起值</th>
+<th>码点终值</th>
+<th>字节序列</th>
+<th>Byte 1</th>
+<th>Byte 2</th>
+<th>Byte 3</th>
+<th>Byte 4</th>
+<th>Byte 5</th>
+<th>Byte 6</th>
+</tr>
+<tr>
+<th>  7</th>
+<td>U+0000</td>
+<td>U+007F</td>
+<td>1</td>
+<td><code>0xxxxxxx</code></td>
+</tr>
+<tr>
+<th>11</th>
+<td>U+0080</td>
+<td>U+07FF</td>
+<td>2</td>
+<td><code>110xxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+</tr>
+<tr>
+<th>16</th>
+<td>U+0800</td>
+<td>U+FFFF</td>
+<td>3</td>
+<td><code>1110xxxx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+</tr>
+<tr>
+<th>21</th>
+<td>U+10000</td>
+<td>U+1FFFFF</td>
+<td>4</td>
+<td><code>11110xxx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+</tr>
+<tr>
+<th>26</th>
+<td>U+200000</td>
+<td>U+3FFFFFF</td>
+<td>5</td>
+<td><code>111110xx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+</tr>
+<tr>
+<th>31</th>
+<td>U+4000000</td>
+<td>U+7FFFFFFF</td>
+<td>6</td>
+<td><code>1111110x</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+<td><code>10xxxxxx</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>英文和英文字符的Unicode码为0 - 127，所以英文在Unicode和UTF-8中的长度和字节都是一致的，只占用1个字节。汉字的Unicode码区间为0x2e80 - 0x9fff, 所以汉字在UTF8中的长度最长为3个字节。</p>
+
+<p>具体转换过程呢？</p>
+
+<p>1.获取汉字的Unicode值，默认JS就是用Unicode编码的，所以通过<code>charCodeAt</code>很容易得到了。</p>
+
+<p>2.明确字节数，根据上表通过charCode很容易知道在UTF8中应该占多少字节。</p>
+
+<p>3.填充补码。根据上表将上面得到的Unicode码依次补到x位中去，补位码第一个字节前面有几个1就表示整个UTF-8编码占多少个字节。</p>
+
+<h2>
+<a id="user-content-举例" class="anchor" href="#%E4%B8%BE%E4%BE%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>举例</h2>
+
+<p>下面以一个汉字 "白" 的转换说明这个过程</p>
+
+<p>首先通过 charCodeAt 得到 30333，并通过 <code>'白'.charCodeAt(0).toString(2)</code>得到其二进制 111011001111101 -&gt; 01110110 01111101</p>
+
+<p>然后发现其在 2048 - 0xFFFF 之间，得到 1110xxxx 10xxxxxx 10xxxxxx -&gt; 1110 0111 10 011001 10 111101</p>
+
+<p>最后就得到了 e7 99 bd 了，可以使用Node来验证下</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> buffer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>(<span class="pl-s"><span class="pl-pds">'</span>白<span class="pl-pds">'</span></span>);
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">buffer</span>.<span class="pl-c1">length</span>); <span class="pl-c">// =&gt; 3</span>
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(buffer); <span class="pl-c">// &lt;Buffer e7 99 bd&gt;</span>
+</pre></div>
+
+<h2>
+<a id="user-content-编码实现" class="anchor" href="#%E7%BC%96%E7%A0%81%E5%AE%9E%E7%8E%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>编码实现</h2>
+
+<div class="highlight highlight-source-js"><pre>
+<span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 将字符转化为UTF8编码的字节数据</span>
+<span class="pl-k">let</span> <span class="pl-en">toUTF</span> <span class="pl-k">=</span> (<span class="pl-smi">str</span>)<span class="pl-k">=&gt;</span> {
+    <span class="pl-k">let</span> utf8 <span class="pl-k">=</span> [];
+    <span class="pl-k">for</span> (<span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> <span class="pl-smi">str</span>.<span class="pl-c1">length</span>; i<span class="pl-k">++</span>) {
+        <span class="pl-k">let</span> code <span class="pl-k">=</span> <span class="pl-smi">str</span>.<span class="pl-c1">charCodeAt</span>(i);
+        <span class="pl-c">// ASCII 位于 U+0000~U+007F</span>
+        <span class="pl-k">if</span> (<span class="pl-c1">0x00</span> <span class="pl-k">&lt;=</span> code <span class="pl-k">&amp;&amp;</span> code <span class="pl-k">&lt;=</span> <span class="pl-c1">0x7f</span>) {
+            <span class="pl-smi">utf8</span>.<span class="pl-c1">push</span>(code);
+            <span class="pl-c">// 两个字节的情况 U+0080~U+07FF</span>
+        } <span class="pl-k">else</span> <span class="pl-k">if</span> (<span class="pl-c1">0x80</span> <span class="pl-k">&lt;=</span> code <span class="pl-k">&amp;&amp;</span> code <span class="pl-k">&lt;=</span> <span class="pl-c1">0x7ff</span>) {
+            <span class="pl-c">// 第一个字节是 11000000 |  (00011111 &amp; code 高位)</span>
+            <span class="pl-smi">utf8</span>.<span class="pl-c1">push</span>((<span class="pl-c1">192</span> <span class="pl-k">|</span> (<span class="pl-c1">0x1f</span> <span class="pl-k">&amp;</span> (code <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">6</span>))));
+            <span class="pl-c">// 第二个字节 10000000 | (00111111 &amp; code) code后6位</span>
+            <span class="pl-smi">utf8</span>.<span class="pl-c1">push</span>((<span class="pl-c1">128</span> <span class="pl-k">|</span> (<span class="pl-c1">0x3f</span> <span class="pl-k">&amp;</span> code)));
+            <span class="pl-c">// 三个字节</span>
+        } <span class="pl-k">else</span> <span class="pl-k">if</span> ((<span class="pl-c1">0x800</span> <span class="pl-k">&lt;=</span> code <span class="pl-k">&amp;&amp;</span> code <span class="pl-k">&lt;=</span> <span class="pl-c1">0xd7ff</span>)
+            <span class="pl-k">||</span> (<span class="pl-c1">0xe000</span> <span class="pl-k">&lt;=</span> code <span class="pl-k">&amp;&amp;</span> code <span class="pl-k">&lt;=</span> <span class="pl-c1">0xffff</span>)) {
+            <span class="pl-c">// 依次三个字节的补齐</span>
+            <span class="pl-smi">utf8</span>.<span class="pl-c1">push</span>((<span class="pl-c1">224</span> <span class="pl-k">|</span> (<span class="pl-c1">0xf</span> <span class="pl-k">&amp;</span> (code <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">12</span>))));
+            <span class="pl-smi">utf8</span>.<span class="pl-c1">push</span>((<span class="pl-c1">128</span> <span class="pl-k">|</span> (<span class="pl-c1">0x3f</span> <span class="pl-k">&amp;</span> (code <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">6</span>))));
+            <span class="pl-smi">utf8</span>.<span class="pl-c1">push</span>((<span class="pl-c1">128</span> <span class="pl-k">|</span> (<span class="pl-c1">0x3f</span> <span class="pl-k">&amp;</span> code)))
+        }
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">let</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> <span class="pl-smi">utf8</span>.<span class="pl-c1">length</span>; i<span class="pl-k">++</span>) {
+        <span class="pl-k">let</span> item <span class="pl-k">=</span> utf8[i];
+        item <span class="pl-k">&amp;=</span> <span class="pl-c1">0xff</span>;
+        utf8[i] <span class="pl-k">=</span> <span class="pl-smi">item</span>.<span class="pl-c1">toString</span>(<span class="pl-c1">16</span>);
+    }
+    <span class="pl-k">return</span> utf8;
+};
+
+<span class="pl-k">let</span> char <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>白<span class="pl-pds">'</span></span>;
+<span class="pl-k">let</span> buffer <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Buffer</span>(char);
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(buffer);
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-en">toUTF</span>(char));
+
+<span class="pl-c">// &lt;Buffer e7 99 bd&gt;</span>
+<span class="pl-c">// [ 'e7', '99', 'bd' ]</span></pre></div>
+
+<h2>
+<a id="user-content-解码" class="anchor" href="#%E8%A7%A3%E7%A0%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>解码</h2>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> <span class="pl-en">readUTF</span> <span class="pl-k">=</span> (<span class="pl-smi">arr</span>)<span class="pl-k">=&gt;</span> {
+  <span class="pl-c">// 解码的过程类似，根据补位码第一个字节前面有几个1就表示整个UTF-8编码占多少个字节！这是解码的关键</span>
+}</pre></div>
+
+<h2>
+<a id="user-content-浏览器中使用" class="anchor" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>浏览器中使用</h2>
+
+<p>因为根据规范URI中的querystring必须按照UTF8的编码进行传输，而JavaScript是Unicode的，所以浏览器就给我们提供了一个方法，也就是<code>encodeURI/encodeURIComponent</code>方法</p>
+
+<p>二者的差别是是否对 URL 编码，使用后者一般是将 URL 作为参数的时候</p>
+
+<div class="highlight highlight-source-js"><pre>
+<span class="pl-c1">encodeURI</span>(<span class="pl-s"><span class="pl-pds">"</span>http://www.google.com/a file with spaces.html<span class="pl-pds">"</span></span>) <span class="pl-c">// http://www.google.com/a%20file%20with%20spaces.html</span>
+
+<span class="pl-c1">encodeURIComponent</span>(<span class="pl-s"><span class="pl-pds">"</span>http://www.google.com/a file with spaces.html<span class="pl-pds">"</span></span>) <span class="pl-c">// http%3A%2F%2Fwww.google.com%2Fa%20file%20with%20spaces.html</span>
+
+<span class="pl-k">var</span> param1 <span class="pl-k">=</span> <span class="pl-c1">encodeURIComponent</span>(<span class="pl-s"><span class="pl-pds">"</span>http://xyz.com/?a=12&amp;b=55<span class="pl-pds">"</span></span>)
+
+<span class="pl-k">var</span> url <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://domain.com/?param1=<span class="pl-pds">"</span></span> <span class="pl-k">+</span> param1 <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span>&amp;param2=99<span class="pl-pds">"</span></span> <span class="pl-c">// http://www.domain.com/?param1=http%3A%2F%2Fxyz.com%2F%Ffa%3D12%26b%3D55&amp;param2=99</span>
+</pre></div>
+
+<p>回归正题</p>
+
+<div class="highlight highlight-source-js"><pre>
+<span class="pl-k">let</span> str <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>白<span class="pl-pds">'</span></span>;
+<span class="pl-k">let</span> code <span class="pl-k">=</span> <span class="pl-c1">encodeURI</span>(str);
+<span class="pl-k">let</span> codeArr <span class="pl-k">=</span> <span class="pl-smi">code</span>.<span class="pl-c1">slice</span>(<span class="pl-c1">1</span>).<span class="pl-c1">split</span>(<span class="pl-s"><span class="pl-pds">'</span>%<span class="pl-pds">'</span></span>);
+codeArr <span class="pl-k">=</span> <span class="pl-smi">codeArr</span>.<span class="pl-en">map</span>(<span class="pl-smi">item</span><span class="pl-k">=&gt;</span><span class="pl-c1">parseInt</span>(item, <span class="pl-c1">16</span>));
+
+<span class="pl-en">console</span>.<span class="pl-c1">log</span>(codeArr); <span class="pl-c">// =&gt; [231, 153, 189]</span>
+</pre></div>
+
+<p>解析回来用 <code>decodeURI/decodeURIComponent</code> 就可以了。</p>
+
+<p>以上可以帮助大家了解到编码的原理，并且清楚转化过程，各种实现，谢谢~</p>
+</article>
