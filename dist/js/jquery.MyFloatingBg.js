@@ -27,7 +27,7 @@
 		}
 
 		$(this).each(function() {
-			var bg = $(this).attr("bg");
+			var bg = $(this).attr("data-bg");
 			$(this).css("background", "url('" + bg + "')");
 			$(this).attr("sign1", sign1);
 			$(this).attr("sign2", sign2);
